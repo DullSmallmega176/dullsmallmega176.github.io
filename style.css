@@ -1,0 +1,30 @@
+body {
+    background-color: seagreen;
+    font-family: 'Yaldevi', sans-serif;
+    color: white;
+}
+
+h1 {
+    font-family: 'Yaldevi', sans-serif;
+    color: white;
+}
+
+h4 {
+    font-family: 'Yaldevi', sans-serif;
+}
+
+#title {
+    text-align: center;
+}
+
+#subtitle {
+    text-align: center;
+}
+
+p {
+    text-align: center;
+}
+
+.ast {
+    color: red;
+}
