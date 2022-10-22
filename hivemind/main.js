@@ -269,7 +269,10 @@ function setMode(m, loaded=false) {
 }
 
 function madeChanges() {
-    return hive.name != getItem('hive').name || hive.slots.join(';') != getItem('hive').slots.join(';');
+    if (getItem('hive')) {
+        return hive.name != getItem('hive').name || hive.slots.join(';') != getItem('hive').slots.join(';');
+    }
+    return false;
 }
 
 function addSlot() {
