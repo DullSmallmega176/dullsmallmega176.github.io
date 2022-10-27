@@ -128,7 +128,8 @@ function draw() {
         textAlign(CENTER);
         textSize(50);
         fill(select('body').style('background-color'));
-        let textY = height / 2 + map(sin(frameCount * 0.025), -1, 1, -20, 20)
+        let textY = height / 2 + map(sin(frameCount * 0.025), -1, 1, -20, 20);
+        noStroke();
         text('welcome to hivemind!', width/2, textY);
         select('#headerTitle').html('&nbsp&nbsphivemind');
         if (getItem('hive')) {
