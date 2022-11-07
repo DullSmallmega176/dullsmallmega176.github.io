@@ -113,7 +113,9 @@ function drawHive(x, y, radius, slots) {
       if (slots[i] != 'U') {
         let imgName = `bee_${slots[i].toUpperCase()}`;
         let img = bee_imgs[imgName];
-        tint(colours[bees[slots[i].toUpperCase()][1]]);
+        if (slots[i] != 'LO') {
+            tint(colours[bees[slots[i].toUpperCase()][1]]);
+        }
         imageMode(CENTER)
         image(img, x + xOffset, y + yOffset, radius + 8, radius + 8);
       }
