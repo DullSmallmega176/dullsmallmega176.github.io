@@ -78,7 +78,7 @@ function setup() {
     if (urlParams.has('hive')) {
         hiveParams = urlParams.get('hive');
         if (hiveParams.substr(hiveParams.length - 1) != ';') { hiveParams += ';'; }
-        code = urlParams.get('hive').split(';');
+        code = hiveParams.split(';');
         hive.name = code.shift();
         if (!code[-1]) {
             code.pop();
