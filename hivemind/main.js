@@ -1,6 +1,9 @@
 let lightModeBtn, darkModeBtn, mode, cnv, fnt, theme, hive, hiveSaved, hexes, hexesNormal, selected, multSelt, gifted, bee_btns;
 const bee_imgs = {};
 
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 function preload() {
@@ -71,6 +74,16 @@ function setup() {
     hexesNormal = [];
     selected = [];
     bee_btns = selectAll('.beePanel div.bee-section button');
+    
+    if (urlParams.has('hive')) {
+        code = urlParams.get('hive').split(';');
+        hive.name = code.shift();
+        if (!code[-1]) {
+            code.pop();
+        }
+        hive.slots = [...code];
+        setMode('app', true);
+    }
 
     // buttons
 
