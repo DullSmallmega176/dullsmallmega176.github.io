@@ -200,7 +200,7 @@ button {
 }
 
 #btn-U {
-    transform: translateY(-65%):
+    transform: translateY(-65%);
 }
 
 @keyframes save-fadeout {
