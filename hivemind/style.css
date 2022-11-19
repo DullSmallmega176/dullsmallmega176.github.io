@@ -199,6 +199,10 @@ button {
     width: 32%;
 }
 
+#btn-U {
+    transform: translateY(-65%):
+}
+
 @keyframes save-fadeout {
     to {
         opacity: 0;
