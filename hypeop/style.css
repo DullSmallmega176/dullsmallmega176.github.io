@@ -8,7 +8,15 @@
     --header-dark: #1b1b1b;
 }
 
-html, header, button {
+.material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 800,
+    'GRAD' 0,
+    'opsz' 48
+  }
+
+html, header, button, p {
     transition: background 0.5s, color 0.5s;
 }
 
@@ -35,11 +43,32 @@ html.dark header {
     background: var(--header-dark);
 }
 
+button { 
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+}
+
 .switch-button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 0.75%;
     font-size: 1.5rem;
-    text-decoration: bold;
+    line-height: 1rem;
+}
+
+main {
+    position: absolute;
+    top: 6.5rem;
+    width: 100%;
+}
+
+#tab-container {
+    display: flex;
+    justify-content: center;
+}
+
+.tab-switch {
+    font-size: 1.75rem;
+    margin-left: 0.75%;
 }

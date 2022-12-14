@@ -1,23 +1,22 @@
+let game;
+const storage = window.localStorage;
 const hidden_on_start = ['#light-mode'];
-
-function switch_theme(theme) {
-    if (theme == 'light') {
-        $('html').removeClass('dark');
-        $('#light-mode').hide();
-        $('#dark-mode').show();
-    } else if (theme == 'dark') {
-        $('html').addClass('dark');
-        $('#light-mode').show();
-        $('#dark-mode').hide();
+const default_game = {
+    settings: {
+        theme: 'light'
     }
-}
+};
 
-$(window).on('ready', () => {
+window.setInterval(() => {
+    storage.setItem('hypeop', JSON.stringify(game));
+}, 60000, (0));
+
+$(document).ready(() => {
+    game = JSON.parse(storage.getItem('hypeop') == 'undefined' ? null : storage.getItem('hypeop')) ?? JSON.parse(JSON.stringify(default_game));
+
     for (const i of hidden_on_start) {
         $(i).hide();
     }
+
+    $.getScript('themeSwitcher.js', () => switch_theme(game.settings.theme));
 });
-
-$('#light-mode').on('click', () => switch_theme('light'));
-
-$('#dark-mode').on('click', () => switch_theme('dark'));
