@@ -25,6 +25,7 @@ html {
     font-size: 1.25rem;
     width: 100vw;
     overflow-x: hidden;
+    transition: background 0.5s, color 0.5s;
 }
 
 .dark {
