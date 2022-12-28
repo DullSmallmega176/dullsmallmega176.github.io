@@ -25,8 +25,10 @@
             </div>
         </header>
         <main>
-            <div id="money-container">
-                <h1 id="money-view" style="text-align: center">$0</h1>
+            <div id="info-container" style="display: flex; align-items: center; justify-content: space-between">
+                <h3 id="time" style="margin-left: 1%">6:00</p>
+                <h1 id="money" style="justify-self: center">$0</h1>
+                <button id="waitButton" style="margin-right: 1.5%; font-size: 1.25rem" onclick="update_time()">wait</button>
             </div>
             <div id="tab-buttons">
                 <button id="stock-tab-button" onclick="switchTab('stock')">stock info</button>
