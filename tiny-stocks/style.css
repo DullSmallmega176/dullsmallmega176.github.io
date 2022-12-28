@@ -82,3 +82,39 @@ main {
     font-size: 1.75rem;
     margin-left: 0.25%;
 }
+
+#stock-tab {
+    display: grid;
+    grid-template-columns: 3fr;
+    grid-template-areas: 1fr;
+}
+
+input[type~=radio][name~="stock-select"] {
+    width: 0px;
+    height: 0px;
+    margin: 0;
+}
+
+#stock-radios label {
+    display: block;
+    width: 4.25rem;
+    height: 2rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    text-align: center;
+    background: var(--text-light);
+    border: 2px solid var(--text-light);
+    color: #5346e2;
+    border-radius: 8px;
+}
+
+.dark #stock-radios label {
+    background: var(--bg-light);
+    border: 2px solid var(--bg-light);
+}
+
+input[type~=radio][name~="stock-select"]:checked + label {
+    background: #5346e2 !important;
+    border: 2px solid #5346e2 !important;
+    color: var(--text-light) !important;
+}
