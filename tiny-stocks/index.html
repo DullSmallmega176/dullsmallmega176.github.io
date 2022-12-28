@@ -29,12 +29,16 @@
                 <h1 id="money-view" style="text-align: center">$0</h1>
             </div>
             <div id="tab-buttons">
-                <button id="stock-tab-button">stock info</button>
+                <button id="stock-tab-button" onclick="switchTab('stock')">stock info</button>
+                <button id="stat-tab-button" onclick="switchTab('stat')">your stats</button>
             </div>
 
             <div id="tabs">
                 <div id="stock-tab">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt amet ipsa tenetur repudiandae suscipit laboriosam dignissimos quasi qui explicabo, impedit autem deleniti, quibusdam illo dolores alias fugiat fuga provident quisquam.</p>
+                    stock info here
+                </div>
+                <div id="stat-tab">
+                    your stats here
                 </div>
             </div>
         </main>
@@ -42,4 +46,5 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="index.js"></script>
     <script src="themeSwitcher.js"></script>
+    <script src="tabSwitcher.js"></script>
 </html>

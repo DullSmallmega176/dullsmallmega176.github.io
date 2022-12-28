@@ -1,4 +1,4 @@
-const hiddenElements = ['#light-mode'];
+const hiddenElements = ['#light-mode' ,'#stat-tab'];
 const storage = window.localStorage;
 const default_game = {
     settings: {

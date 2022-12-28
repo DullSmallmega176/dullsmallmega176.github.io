@@ -5,7 +5,7 @@
     'FILL' 0,
     'wght' 650,
     'GRAD' 0,
-    'opsz' 48
+    'opsz' 48;
   }
 
 :root {
@@ -32,7 +32,7 @@ html {
     background: var(--text-light);
     color: var(--bg-light);
     font-size: 1.25rem;
-    transition: background 0.5s, color 0.5s;
+    /* transition: background 0.5s, color 0.5s; */
 }
 
 header {
@@ -74,8 +74,10 @@ main {
 #tab-buttons {
     display: flex;
     justify-content: center;
+    margin-bottom: 1%;
 }
 
 #tab-buttons * {
     font-size: 1.75rem;
+    margin-left: 0.25%;
 }
