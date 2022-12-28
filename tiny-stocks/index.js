@@ -7,6 +7,14 @@ const default_game = {
         theme: 'light'
     }
 };
+const stock_names = ['BTR', 'FLR', 'PZA', 'ICM', 'CHO'];
+const stock_defaults = {
+    BTR: 50,
+    FLR: 125,
+    PZA: 250,
+    ICM: 500,
+    CHO: 850
+};
 let game = default_game;
 
 function minutes_to_time(m) {
