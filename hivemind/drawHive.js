@@ -66,7 +66,8 @@ function drawHive(x, y, radius, slots) {
       PU: ['EVENT', 'WHITE'],
       TAB: ['EVENT', 'WHITE'],
       VI: ['EVENT', 'BLUE'],
-      WI: ['EVENT', 'WHITE']
+      WI: ['EVENT', 'WHITE'],
+      DIG: ['EVENT', 'WHITE']
     };
 
     let xOffset = 0;

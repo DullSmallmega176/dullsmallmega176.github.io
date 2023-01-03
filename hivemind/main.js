@@ -53,6 +53,7 @@ function preload() {
     bee_imgs['bee_VE'] = loadImage('assets/bee_VE.png');
     bee_imgs['bee_VI'] = loadImage('assets/bee_VI.png');
     bee_imgs['bee_WI'] = loadImage('assets/bee_WI.png');
+    bee_imgs['bee_DIG'] = loadImage('assets/bee_DIG.png');
 }
 
 function setup() {
