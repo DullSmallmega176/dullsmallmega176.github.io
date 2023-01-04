@@ -49,9 +49,13 @@
                         <input type="radio" name="stock-select" id="select-cho" onclick="switchInfo('cho')">
                         <label for="select-cho">CHO</label><br>
                     </div>
-                    <div id="stock-info" style="display: flex; justify-content: space-around">
-                        <div id="stock-info-header"></div>
-                        <p >info for: <b id="stock-info-name">undefined</b></p><p>you own: <b id="stock-info-amt">0</b></p><p>price: <b id="stock-info-price">$0</b></p><p>price change (last tick): <b id="stock-info-inc">100%</b></p>
+                    <div id="stock-info">
+                        <div id="stock-info-header" style="display: flex; justify-content: space-around">
+                            <p>info for: <b id="stock-info-name">undefined</b></p><p>you own: <b id="stock-info-amt">0</b></p><p>price: <b id="stock-info-price">$0</b></p><p>price change (last tick): <b id="stock-info-inc">100%</b></p>
+                        </div>
+                        <br>
+                        <button id="stock-buy" onclick="buyStock()" disabled>buy</button>
+                        <button id="stock-sell" onclick="sellStock()" disabled> sell</button>
                     </div>
                 </div>
                 <div id="stat-tab">
@@ -64,5 +68,5 @@
     <script src="index.js"></script>
     <script src="themeSwitcher.js"></script>
     <script src="tabSwitcher.js"></script>
-    <script src="stockInfo.js"></script>
+    <script src="stocks.js"></script>
 </html>

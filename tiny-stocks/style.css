@@ -134,7 +134,11 @@ input[type~=radio][name~="stock-select"]:checked + label {
     border: 2px solid #1d1d1d;
 }
 
-#stock-info * {
+#stock-info-header * {
     display: inline-block;
     margin: 0;
+}
+
+#stock-info button {
+    font-size: 1.75rem;
 }

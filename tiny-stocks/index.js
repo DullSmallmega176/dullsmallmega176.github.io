@@ -29,14 +29,8 @@ const default_game = {
     }
 };
 const stock_names = ['BTR', 'FLR', 'PZA', 'ICM', 'CHO'];
-const stock_defaults = {
-    BTR: 50,
-    FLR: 125,
-    PZA: 250,
-    ICM: 500,
-    CHO: 850
-};
 let game = default_game;
+let current_stock;
 
 function minutes_to_time(m) {
     return `${m > 719 && m < 780 ? '12' : Math.floor(m/60) % 12}:${(m % 60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})} ${Math.floor(m/60) % 24 < 12 ? 'am' : 'pm'}`;
@@ -50,9 +44,10 @@ $(document).ready(() => {
     game = JSON.parse(storage.getItem('tiny-stocks') ?? JSON.stringify(default_game));
 
     $.getScript('themeSwitcher.js', () => switchTheme(game.settings.theme));
-    $.getScript('stockInfo.js', () => switchInfo('btr'));
+    $.getScript('stocks.js', () => switchInfo('btr'));
 
     $('#time').html(minutes_to_time(game.time));
+    $('#money').html(`$${game.money}`);
 });
 
 function update_time() {
