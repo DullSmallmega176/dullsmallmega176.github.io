@@ -12,5 +12,4 @@ function switchTheme(theme) {
             break;
         }
     game.settings.theme = theme;  
-    storage.setItem('tiny-stocks', JSON.stringify(game));
 }

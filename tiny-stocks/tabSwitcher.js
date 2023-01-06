@@ -1,4 +1,4 @@
-const tabs = ['stock', 'stat'];
+const tabs = ['stock', 'stat', 'settings'];
 
 function switchTab(t) {
     if (!tabs.includes(t)) { return; }

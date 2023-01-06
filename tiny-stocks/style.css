@@ -142,3 +142,13 @@ input[type~=radio][name~="stock-select"]:checked + label {
 #stock-info button {
     font-size: 1.75rem;
 }
+
+#settings-tab {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#settings-tab button {
+    font-size: 1.75rem;
+}

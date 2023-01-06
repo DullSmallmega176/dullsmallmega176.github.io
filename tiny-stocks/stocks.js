@@ -4,7 +4,7 @@ function switchInfo(s) {
     $('#stock-info-name').html(sCapital);
     $('#stock-info-amt').html(game.stocks_owned[sCapital]);
     $('#stock-info-price').html(`$${game.stock_prices[sCapital]}`);
-    $('#stock-info-inc').html(`${(game.stock_prices[sCapital] - game.stock_prices_previous[sCapital]) / game.stock_prices[sCapital] * 100}%`);
+    $('#stock-info-inc').html(`${Math.round(((game.stock_prices[sCapital] - game.stock_prices_previous[sCapital]) / game.stock_prices[sCapital] * 100)*100)/100}%`);
 
     if (game.money > game.stock_prices[sCapital]) {
         $('#stock-buy').attr('disabled', false);
@@ -41,4 +41,39 @@ function sellStock() {
 
     switchInfo(current_stock);
     $('#money').html(`$${game.money}`);
+}
+
+function updateStocks() {
+    for (const s of stock_names) {
+        game.stock_prices_previous[s] = game.stock_prices[s];
+        console.log(game.stock_trends[s]);
+        switch (game.stock_trends[s].slice(0, -1)) {
+            case 'steady':
+                if (Math.random() > 0.5) {
+                    game.stock_prices[s] -= Math.round(game.stock_prices[s] * (Math.random() > 0.5 ? 0.05 : 0.07));
+                } else {
+                    game.stock_prices[s] += Math.round(game.stock_prices[s] * (Math.random() > 0.5 ? 0.05 : 0.07));
+                }
+                break;
+            case 'gentle-descent': 
+                game.stock_prices[s] -= Math.round(game.stock_prices[s] * (Math.random() > 0.5 ? 0.2 : 0.3));
+                break;
+            case 'gentle-ascent':
+                game.stock_prices[s] += Math.round(game.stock_prices[s] * (Math.random() > 0.5 ? 0.2 : 0.3));
+                break;
+            case 'steep-descent':
+                game.stock_prices[s] -= Math.round(game.stock_prices[s] * (Math.random() > 0.5 ? 0.4 : 0.5));
+                break;
+            case 'steep-ascent':
+                game.stock_prices[s] += Math.round(game.stock_prices[s] * (Math.random > 0.5 ? 0.4 : 0.5));
+                break;
+        }
+
+        game.stock_trends[s] = game.stock_trends[s].slice(0, -1) + String(Number(game.stock_trends[s].slice(-1) - 1));
+        if (game.stock_trends[s].slice(-1) == '0') {
+            game.stock_trends[s] = choice(stock_trends);
+            game.stock_trends[s] += String(Math.floor(Math.random() * 3) + 1);
+        }
+        switchInfo(current_stock);
+    }
 }

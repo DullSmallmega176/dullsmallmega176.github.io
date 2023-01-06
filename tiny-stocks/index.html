@@ -33,6 +33,7 @@
             <div id="tab-buttons">
                 <button id="stock-tab-button" onclick="switchTab('stock')">stocks</button>
                 <button id="stat-tab-button" onclick="switchTab('stat')">your stats</button>
+                <button id="stat-tab-button" onclick="switchTab('settings')">settings</button>
             </div>
 
             <div id="tabs" style="margin-left: 5%">
@@ -61,6 +62,9 @@
                 <div id="stat-tab">
                     your stats here
                 </div>
+                <div id="settings-tab">
+                    <button id="reset-save" onclick="resetSave()">RESET SAVE</button>
+                </div>
             </div>
         </main>
     </body>
@@ -69,4 +73,5 @@
     <script src="themeSwitcher.js"></script>
     <script src="tabSwitcher.js"></script>
     <script src="stocks.js"></script>
+    <script src="settings.js"></script>
 </html>

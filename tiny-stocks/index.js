@@ -1,5 +1,6 @@
-const hiddenElements = ['#light-mode' ,'#stat-tab'];
+const hiddenElements = ['#light-mode' ,'#stat-tab', '#settings-tab'];
 const storage = window.localStorage;
+const stock_trends = ['steady', 'gentle-descent', 'gentle-ascent', 'steep-descent', 'steep-ascent'];
 const default_game = {
     money: 1000,
     time: 360,
@@ -25,7 +26,7 @@ const default_game = {
         CHO: 850
     },
     settings: {
-        theme: 'light'
+        theme: 'dark'
     }
 };
 const stock_names = ['BTR', 'FLR', 'PZA', 'ICM', 'CHO'];
@@ -43,14 +44,42 @@ $(document).ready(() => {
 
     game = JSON.parse(storage.getItem('tiny-stocks') ?? JSON.stringify(default_game));
 
+    if (!storage.getItem('tiny-stocks')) {
+        game.stock_trends = {};
+        for (const s of stock_names) {
+            game.stock_trends[s] = choice(stock_trends);
+            game.stock_trends[s] += String(Math.floor(Math.random() * 3) + 1);
+        }
+    }
+
     $.getScript('themeSwitcher.js', () => switchTheme(game.settings.theme));
     $.getScript('stocks.js', () => switchInfo('btr'));
 
     $('#time').html(minutes_to_time(game.time));
     $('#money').html(`$${game.money}`);
+
+    let msg = null;
+    let tmp = Math.random();
+    if (tmp < 0.333) {
+        msg = '%chey! stop cheating!'
+    } else if (tmp >= 0.333 && tmp < 0.667) {
+        msg = '%cwhat are you doing, cheater!'
+    } else {
+        msg = '%ccheating is for cheaters!'
+    }
+    console.log(msg, 'color: red; font-size: 30px');
 });
 
 function update_time() {
     game.time++;
     $('#time').html(minutes_to_time(game.time));
+    $.getScript('stocks.js', () => updateStocks());
 }
+
+function choice(a) {
+    return a[Math.floor(Math.random()*a.length)];
+}
+
+$('button:not(#reset-save)').click(() => {
+    storage.setItem('tiny-stocks', JSON.stringify(game));
+});
