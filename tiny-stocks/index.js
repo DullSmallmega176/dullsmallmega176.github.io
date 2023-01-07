@@ -66,9 +66,9 @@ $(document).ready(() => {
             game.stock_trends[s] += String(Math.floor(Math.random() * 3) + 1);
         }
     }
-
-    $.getScript('themeSwitcher.js', () => switchTheme(game.settings.theme));
+    
     $.getScript('stocks.js', () => switchInfo('btr'));
+    $.getScript('themeSwitcher.js', () => switchTheme(game.settings.theme));
 
     $('#time').html(minutes_to_time(game.time));
     $('#money').html(`$${game.money}`);
