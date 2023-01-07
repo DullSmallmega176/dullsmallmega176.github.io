@@ -25,10 +25,25 @@ const default_game = {
         ICM: 500,
         CHO: 850
     },
+    stock_prices_graph: {
+        BTR: [50],
+        FLR: [125],
+        PZA: [250],
+        ICM: [500],
+        CHO: [850]
+    },
+    stock_time_graph: [360],
     settings: {
         theme: 'dark'
     }
 };
+const stock_price_defaults = {
+    BTR: 50,
+    FLR: 125,
+    PZA: 250,
+    ICM: 500,
+    CHO: 850
+}
 const stock_names = ['BTR', 'FLR', 'PZA', 'ICM', 'CHO'];
 let game = default_game;
 let current_stock;
@@ -74,6 +89,9 @@ function update_time() {
     game.time++;
     $('#time').html(minutes_to_time(game.time));
     $.getScript('stocks.js', () => updateStocks());
+    $.getScript('stocks.js', () => switchInfo(current_stock));
+    game.stock_time_graph.push(game.time);
+    console.log(game.stock_time_graph);
 }
 
 function choice(a) {

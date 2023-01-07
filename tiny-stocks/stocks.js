@@ -17,6 +17,20 @@ function switchInfo(s) {
     } else {
         $('#stock-sell').attr('disabled', true);
     }
+
+    graph = document.getElementById('stock-graph');
+    Plotly.newPlot(graph, [{
+        x: [...game.stock_time_graph].map(function(x) { return minutes_to_time(x); }),
+        y: [...game.stock_prices_graph[sCapital]].map(function(x) { return `$${x}`; }),
+        margin: 0
+    }], {
+        title: `price for ${sCapital} over time`,
+        paper_bgcolor: $('html').hasClass('dark') ? '#2c2c2c' : '#c6c6c6',
+        plot_bgcolor: $('html').hasClass('dark') ? '#2c2c2c' : '#c6c6c6',
+        font: {
+            color: $('html').hasClass('dark') ? '#ddd' : '#c3d3d3d'
+        }
+    }, {scrollZoom: true, displayModeBar: false});
 }
 
 function buyStock() {
@@ -67,13 +81,20 @@ function updateStocks() {
             case 'steep-ascent':
                 game.stock_prices[s] += Math.round(game.stock_prices[s] * (Math.random > 0.5 ? 0.4 : 0.5));
                 break;
+            case 'rebounce':
+                game.stock_prices[s] += Math.round(game.stock_prices[s] * (Math.random > 0.5 ? 0.7 : 0.8));
+                break;
         }
 
         game.stock_trends[s] = game.stock_trends[s].slice(0, -1) + String(Number(game.stock_trends[s].slice(-1) - 1));
+        if (game.stock_prices[s] < stock_price_defaults[s] * 0.09) {
+            game.stock_trends[s] = game.stock_trends[s] = 'rebounce';
+            game.stock_trends[s] += 5;
+        }
         if (game.stock_trends[s].slice(-1) == '0') {
             game.stock_trends[s] = choice(stock_trends);
             game.stock_trends[s] += String(Math.floor(Math.random() * 3) + 1);
         }
-        switchInfo(current_stock);
+        game.stock_prices_graph[s].push(game.stock_prices[s]);
     }
 }
