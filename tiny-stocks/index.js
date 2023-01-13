@@ -71,7 +71,7 @@ $(document).ready(() => {
     $.getScript('themeSwitcher.js', () => switchTheme(game.settings.theme));
 
     $('#time').html(minutes_to_time(game.time));
-    $('#money').html(`$${game.money}`);
+    $('#money').html(`$${game.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`);
 
     let msg = null;
     let tmp = Math.random();
@@ -91,7 +91,6 @@ function update_time() {
     $.getScript('stocks.js', () => updateStocks());
     $.getScript('stocks.js', () => switchInfo(current_stock));
     game.stock_time_graph.push(game.time);
-    console.log(game.stock_time_graph);
 }
 
 function choice(a) {

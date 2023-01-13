@@ -2,8 +2,8 @@ function switchInfo(s) {
     current_stock = s;
     let sCapital = s.toUpperCase();
     $('#stock-info-name').html(sCapital);
-    $('#stock-info-amt').html(game.stocks_owned[sCapital]);
-    $('#stock-info-price').html(`$${game.stock_prices[sCapital]}`);
+    $('#stock-info-amt').html(game.stocks_owned[sCapital].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+    $('#stock-info-price').html(`$${game.stock_prices[sCapital].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`);
     $('#stock-info-inc').html(`${Math.round(((game.stock_prices[sCapital] - game.stock_prices_previous[sCapital]) / game.stock_prices[sCapital] * 100)*100)/100}%`);
 
     if (game.money > game.stock_prices[sCapital]) {
@@ -54,13 +54,16 @@ function sellStock() {
     game.stocks_owned[sCapital] -= stock_amt;
 
     switchInfo(current_stock);
-    $('#money').html(`$${game.money}`);
+    $('#money').html(`$${game.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`);
 }
 
 function updateStocks() {
     for (const s of stock_names) {
         game.stock_prices_previous[s] = game.stock_prices[s];
-        console.log(game.stock_trends[s]);
+        if (game.stock_prices[s] <= stock_price_defaults[s] / 10) {
+            game.stock_trends[s] = 'steep-ascent';
+            game.stock_trends[s] += 8 * Math.ceil(game.stock_prices[s] / (stock_price_defaults[s] / 5));
+        }
         switch (game.stock_trends[s].slice(0, -1)) {
             case 'steady':
                 if (Math.random() > 0.5) {
@@ -87,11 +90,7 @@ function updateStocks() {
         }
 
         game.stock_trends[s] = game.stock_trends[s].slice(0, -1) + String(Number(game.stock_trends[s].slice(-1) - 1));
-        if (game.stock_prices[s] < stock_price_defaults[s] * 0.09) {
-            game.stock_trends[s] = game.stock_trends[s] = 'rebounce';
-            game.stock_trends[s] += 5;
-        }
-        if (game.stock_trends[s].slice(-1) == '0') {
+        if (Number(game.stock_trends[s].slice(-1)) < 1) {
             game.stock_trends[s] = choice(stock_trends);
             game.stock_trends[s] += String(Math.floor(Math.random() * 3) + 1);
         }
