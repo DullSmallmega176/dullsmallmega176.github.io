@@ -91,6 +91,7 @@ $(document).ready(() => {
         }
         $(`#${k}`).val(v);
     }
+    $('#streak').html(`Streak: ${data.streak}/72`);
 });
 
 $('#new-chall').on('click', () => {
@@ -113,7 +114,7 @@ $('#submit').on('click', () => {
     if (data.streak == 72) {
         winGame();
     }
-    $('#streak').html(`Streak: ${data.streak}/72`)
+    $('#streak').html(`Streak: ${data.streak}/72`);
 });
 
 $('.restart-chall').on('click', () => {
@@ -122,7 +123,7 @@ $('.restart-chall').on('click', () => {
     pllList.forEach(pll => {
         $(`#${pll}`).val(0);
     });
-    $('#streak').html(`Streak: ${data.streak}/72`)
+    $('#streak').html(`Streak: ${data.streak}/72`);
     $('#chall-container').show();
     $('#new-container').hide();
     $('#lose-container').hide();
