@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLL Overflow Tracker</title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
+</head>
+<body>
+    <header style="position: absolute; top: 0; left: 0; padding: 0; background: #0d1418; text-align: center; height: 3rem;">
+        <a href="http://youtu.be/Lo6MFAK7edE" style="text-decoration: underline;"><h1>PLL Overflow</h1></a>
+    </header>
+    <main class="container" style="display: flex; justify-content: center">
+        <div id="new-container">
+            <h3>It seems you don't have a current challenge.</h3>
+            <button id="new-chall">New Challenge</button>
+        </div>
+        <div id="chall-container">
+            <h2 id="streak">Streak: 0/72</h2>
+            <table>
+                <tr>
+                    <th>PLL</th>
+                    <th>Image</th>
+                    <th>Count</th>
+                </tr>
+                <tr>
+                    <th>Aa</th>
+                    <th><img src="assets/Aa.png" alt="Aa" width="75" height="75"></th>
+                    <th><input type="number" id="Aa" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Ab</th>
+                    <th><img src="assets/Ab.png" alt="Ab" width="75" height="75"></th>
+                    <th><input type="number" id="Ab" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>E</th>
+                    <th><img src="assets/E.png" alt="E" width="75" height="75"></th>
+                    <th><input type="number" id="E" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>F</th>
+                    <th><img src="assets/F.png" alt="F" width="75" height="75"></th>
+                    <th><input type="number" id="F" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Ga</th>
+                    <th><img src="assets/Ga.png" alt="Ga" width="75" height="75"></th>
+                    <th><input type="number" id="Ga" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Gb</th>
+                    <th><img src="assets/Gb.png" alt="Gb" width="75" height="75"></th>
+                    <th><input type="number" id="Gb" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Gc</th>
+                    <th><img src="assets/Gc.png" alt="Gc" width="75" height="75"></th>
+                    <th><input type="number" id="Gc" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Gd</th>
+                    <th><img src="assets/Gd.png" alt="Gd" width="75" height="75"></th>
+                    <th><input type="number" id="Gd" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>H</th>
+                    <th><img src="assets/H.png" alt="H" width="75" height="75"></th>
+                    <th><input type="number" id="H" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Ja</th>
+                    <th><img src="assets/Ja.png" alt="Ja" width="75" height="75"></th>
+                    <th><input type="number" id="Ja" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Jb</th>
+                    <th><img src="assets/Jb.png" alt="Jb" width="75" height="75"></th>
+                    <th><input type="number" id="Jb" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Na</th>
+                    <th><img src="assets/Na.png" alt="Na" width="75" height="75"></th>
+                    <th><input type="number" id="Na" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Nb</th>
+                    <th><img src="assets/Nb.png" alt="Nb" width="75" height="75"></th>
+                    <th><input type="number" id="Nb" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Ra</th>
+                    <th><img src="assets/Ra.png" alt="Ra" width="75" height="75"></th>
+                    <th><input type="number" id="Ra" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Rb</th>
+                    <th><img src="assets/Rb.png" alt="Rb" width="75" height="75"></th>
+                    <th><input type="number" id="Rb" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>T</th>
+                    <th><img src="assets/T.png" alt="T" width="75" height="75"></th>
+                    <th><input type="number" id="T" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Ua</th>
+                    <th><img src="assets/Ua.png" alt="Ua" width="75" height="75"></th>
+                    <th><input type="number" id="Ua" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Ub</th>
+                    <th><img src="assets/Ub.png" alt="Ub" width="75" height="75"></th>
+                    <th><input type="number" id="Ub" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>V</th>
+                    <th><img src="assets/V.png" alt="V" width="75" height="75"></th>
+                    <th><input type="number" id="V" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Y</th>
+                    <th><img src="assets/Y.png" alt="Y" width="75" height="75"></th>
+                    <th><input type="number" id="Y" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Z</th>
+                    <th><img src="assets/Z.png" alt="Z" width="75" height="75"></th>
+                    <th><input type="number" id="Z" min="0" value="0"></th>
+                </tr>
+                <tr>
+                    <th>Skip</th>
+                    <th><img src="assets/Skip.svg" alt="Skip" width="75" height="75"></th>
+                    <th><input type="number" id="Skip" min="0" value="0"></th>
+                </tr>
+            </table>
+            <button id="submit">Submit</button>
+        </div>
+        <div id="lose-container">
+            <h3 id="lose-msg">You lose!</h3>
+            <button class="restart-chall">New Challenge</button>
+        </div>
+        <div id="win-container">
+            <h3>You win, with a streak of 72!</h3>
+            <button class="restart-chall">New Challenge</button>
+        </div>
+    </main>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="index.js"></script>
+</html>
