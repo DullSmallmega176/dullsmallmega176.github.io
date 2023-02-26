@@ -86,11 +86,11 @@ $(document).ready(() => {
     }
     data = JSON.parse(storage.getItem('pll-overflow') ?? defaultData);
 
-    for (const [k, v] of Object.entries(pllList)) {
-        if (data[v] > maxCounts[k]) {
-            loseGame(k, v);
+    for (const k of Object.entries(pllList)) {
+        if (data[k] > maxCounts[k]) {
+            loseGame(k, data[k]);
         }
-        $(`#${k}`).val(v);
+        $(`#${k}`).val(data[l]);
     }
     $('#streak').html(`Streak: ${data.streak}/72`);
 });
