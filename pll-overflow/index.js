@@ -20,7 +20,8 @@ const pllList = [
     'Ub',
     'V',
     'Y',
-    'Z'
+    'Z',
+    'Skip'
 ];
 const defaultData = JSON.stringify({
     Aa: 0,
@@ -85,7 +86,7 @@ $(document).ready(() => {
     }
     data = JSON.parse(storage.getItem('pll-overflow') ?? defaultData);
 
-    for (const [k, v] of Object.entries(data)) {
+    for (const [k, v] of Object.entries(pllList)) {
         if (v > maxCounts[k]) {
             loseGame(k, v);
         }
