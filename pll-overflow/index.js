@@ -51,7 +51,7 @@ const maxCounts = {
     Aa: 4,
     Ab: 4,
     E: 2,
-    F: 0,
+    F: 4,
     H: 1,
     Ga: 4,
     Gb: 4,
