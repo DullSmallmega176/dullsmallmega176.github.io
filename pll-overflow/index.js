@@ -87,7 +87,7 @@ $(document).ready(() => {
     data = JSON.parse(storage.getItem('pll-overflow') ?? defaultData);
 
     for (const [k, v] of Object.entries(pllList)) {
-        if (v > maxCounts[k]) {
+        if (data[v] > maxCounts[k]) {
             loseGame(k, v);
         }
         $(`#${k}`).val(v);
