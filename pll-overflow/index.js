@@ -86,11 +86,11 @@ $(document).ready(() => {
     }
     data = JSON.parse(storage.getItem('pll-overflow') ?? defaultData);
 
-    for (const k of Object.entries(pllList)) {
+    for (const k of pllList) {
         if (data[k] > maxCounts[k]) {
             loseGame(k, data[k]);
         }
-        $(`#${k}`).val(data[l]);
+        $(`#${k}`).val(data[k]);
     }
     $('#streak').html(`Streak: ${data.streak}/72`);
 });
@@ -103,7 +103,6 @@ $('#new-chall').on('click', () => {
 });
 
 $('#submit').on('click', () => {
-    storage.setItem('pll-overflow', JSON.stringify(data));
     pllList.forEach(pll => {
         const count = $(`#${pll}`).val();
         data[pll] = count;
@@ -115,6 +114,7 @@ $('#submit').on('click', () => {
     if (data.streak == 72) {
         winGame();
     }
+    storage.setItem('pll-overflow', JSON.stringify(data));
     $('#streak').html(`Streak: ${data.streak}/72`);
 });
 
