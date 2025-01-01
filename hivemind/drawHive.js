@@ -11,63 +11,63 @@ function drawHive(x, y, radius, slots) {
     };
     
     const colours = {
-      COLORLESS: color(29, 48, 60),
+      WHITE: color(29, 48, 60),
       RED: color(244, 73, 56),
       BLUE: color(58, 143, 210)
     };
     
     const bees = {
-      BA: ['COMMON', 'COLORLESS'],
+      BA: ['COMMON', 'WHITE'],
       // rare
-      BO: ['RARE', 'COLORLESS'],
-      BR: ['RARE', 'COLORLESS'],
+      BO: ['RARE', 'WHITE'],
+      BR: ['RARE', 'WHITE'],
       BU: ['RARE', 'BLUE'],
       CO: ['RARE', 'BLUE'],
-      HA: ['RARE', 'COLORLESS'],
-      LO: ['RARE', 'COLORLESS'],
+      HA: ['RARE', 'WHITE'],
+      LO: ['RARE', 'WHITE'],
       RA: ['RARE', 'RED'],
       RAS: ['RARE', 'RED'],
-      ST: ['RARE', 'COLORLESS'],
+      ST: ['RARE', 'WHITE'],
       // epic
       BUB: ['EPIC', 'BLUE'],
       BUC: ['EPIC', 'BLUE'],
-      COM: ['EPIC', 'COLORLESS'],
-      DE: ['EPIC', 'COLORLESS'],
-      EX: ['EPIC', 'COLORLESS'],
+      COM: ['EPIC', 'WHITE'],
+      DE: ['EPIC', 'WHITE'],
+      EX: ['EPIC', 'WHITE'],
       FI: ['EPIC', 'RED'],
       FR: ['EPIC', 'BLUE'],
-      HO: ['EPIC', 'COLORLESS'],
+      HO: ['EPIC', 'WHITE'],
       RAG: ['EPIC', 'RED'],
       RI: ['EPIC', 'RED'],
-      SH: ['EPIC', 'COLORLESS'],
+      SH: ['EPIC', 'WHITE'],
       // legendary
-      BAB: ['LEGENDARY', 'COLORLESS'],
-      CA: ['LEGENDARY', 'COLORLESS'],
+      BAB: ['LEGENDARY', 'WHITE'],
+      CA: ['LEGENDARY', 'WHITE'],
       DEM: ['LEGENDARY', 'RED'],
       DI: ['LEGENDARY', 'BLUE'],
-      LI: ['LEGENDARY', 'COLORLESS'],
-      MU: ['LEGENDARY', 'COLORLESS'],
+      LI: ['LEGENDARY', 'WHITE'],
+      MU: ['LEGENDARY', 'WHITE'],
       NI: ['LEGENDARY', 'BLUE'],
-      SHY: ['LEGENDARY', 'COLORLESS'],
+      SHY: ['LEGENDARY', 'WHITE'],
       // mythic
       BUO: ['MYTHIC', 'BLUE'],
-      FU: ['MYTHIC', 'COLORLESS'],
+      FU: ['MYTHIC', 'WHITE'],
       PR: ['MYTHIC', 'RED'],
       SP: ['MYTHIC', 'RED'],
       TA: ['MYTHIC', 'BLUE'],
-      VE: ['MYTHIC', 'COLORLESS'],
+      VE: ['MYTHIC', 'WHITE'],
       // event
-      BE: ['EVENT', 'COLORLESS'],
+      BE: ['EVENT', 'WHITE'],
       COB: ['EVENT', 'BLUE'],
       CR: ['EVENT', 'RED'],
       FE: ['EVENT', 'RED'],
-      GU: ['EVENT', 'COLORLESS'],
-      PH: ['EVENT', 'COLORLESS'],
-      PU: ['EVENT', 'COLORLESS'],
-      TAB: ['EVENT', 'COLORLESS'],
+      GU: ['EVENT', 'WHITE'],
+      PH: ['EVENT', 'WHITE'],
+      PU: ['EVENT', 'WHITE'],
+      TAB: ['EVENT', 'WHITE'],
       VI: ['EVENT', 'BLUE'],
-      WI: ['EVENT', 'COLORLESS'],
-      DIG: ['EVENT', 'COLORLESS']
+      WI: ['EVENT', 'WHITE'],
+      DIG: ['EVENT', 'WHITE']
     };
 
     let xOffset = 0;
