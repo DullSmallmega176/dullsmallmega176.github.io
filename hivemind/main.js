@@ -336,7 +336,6 @@ function exportImage() {
     pg.text(hive.name, pg.width/2, 25);
     pg.textAlign(LEFT, TOP);
     pg.textSize(10);
-    pg.text('made with hivemind (t4styl.github.io/hivemind)', 4, 2);
     pg.image(cnv, 0, 50);
     let fname = hive.name.replace(/[/\\?%*:|"<>]/g, '-');
     save(pg, `${fname}.png`);
