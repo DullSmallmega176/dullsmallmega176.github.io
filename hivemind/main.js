@@ -269,7 +269,7 @@ function setMode(m, loaded=false) {
             let x = prompt('enter hive name (max 15 chars): (this can be changed later)', 'hive');
             if (!x) { return; }
             hive.name = x.substring(0, 16);
-            let n = prompt('how many hive slots will the hive use (25-50): (this can be changed later)', '25');
+            let n = prompt('how many hive slots will the hive use (25-50): (this can be changed later)', '50');
             if (!isNaN(n) && !isNaN(parseFloat(n))) {
                 hive.slots = new Array(clamp(parseInt(n), 25, 50)).fill('U');
             } else {
