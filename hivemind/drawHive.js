@@ -11,63 +11,63 @@ function drawHive(x, y, radius, slots) {
     };
     
     const colours = {
-      WHITE: color(29, 48, 60),
+      COLORLESS: color(29, 48, 60),
       RED: color(244, 73, 56),
       BLUE: color(58, 143, 210)
     };
     
     const bees = {
-      BA: ['COMMON', 'WHITE'],
+      BA: ['COMMON', 'COLORLESS'],
       // rare
-      BO: ['RARE', 'WHITE'],
-      BR: ['RARE', 'WHITE'],
+      BO: ['RARE', 'COLORLESS'],
+      BR: ['RARE', 'COLORLESS'],
       BU: ['RARE', 'BLUE'],
       CO: ['RARE', 'BLUE'],
-      HA: ['RARE', 'WHITE'],
-      LO: ['RARE', 'WHITE'],
+      HA: ['RARE', 'COLORLESS'],
+      LO: ['RARE', 'COLORLESS'],
       RA: ['RARE', 'RED'],
       RAS: ['RARE', 'RED'],
-      ST: ['RARE', 'WHITE'],
+      ST: ['RARE', 'COLORLESS'],
       // epic
       BUB: ['EPIC', 'BLUE'],
       BUC: ['EPIC', 'BLUE'],
-      COM: ['EPIC', 'WHITE'],
-      DE: ['EPIC', 'WHITE'],
-      EX: ['EPIC', 'WHITE'],
+      COM: ['EPIC', 'COLORLESS'],
+      DE: ['EPIC', 'COLORLESS'],
+      EX: ['EPIC', 'COLORLESS'],
       FI: ['EPIC', 'RED'],
       FR: ['EPIC', 'BLUE'],
-      HO: ['EPIC', 'WHITE'],
+      HO: ['EPIC', 'COLORLESS'],
       RAG: ['EPIC', 'RED'],
       RI: ['EPIC', 'RED'],
-      SH: ['EPIC', 'WHITE'],
+      SH: ['EPIC', 'COLORLESS'],
       // legendary
-      BAB: ['LEGENDARY', 'WHITE'],
-      CA: ['LEGENDARY', 'WHITE'],
+      BAB: ['LEGENDARY', 'COLORLESS'],
+      CA: ['LEGENDARY', 'COLORLESS'],
       DEM: ['LEGENDARY', 'RED'],
       DI: ['LEGENDARY', 'BLUE'],
-      LI: ['LEGENDARY', 'WHITE'],
-      MU: ['LEGENDARY', 'WHITE'],
+      LI: ['LEGENDARY', 'COLORLESS'],
+      MU: ['LEGENDARY', 'COLORLESS'],
       NI: ['LEGENDARY', 'BLUE'],
-      SHY: ['LEGENDARY', 'WHITE'],
+      SHY: ['LEGENDARY', 'COLORLESS'],
       // mythic
       BUO: ['MYTHIC', 'BLUE'],
-      FU: ['MYTHIC', 'WHITE'],
+      FU: ['MYTHIC', 'COLORLESS'],
       PR: ['MYTHIC', 'RED'],
       SP: ['MYTHIC', 'RED'],
       TA: ['MYTHIC', 'BLUE'],
-      VE: ['MYTHIC', 'WHITE'],
+      VE: ['MYTHIC', 'COLORLESS'],
       // event
-      BE: ['EVENT', 'WHITE'],
+      BE: ['EVENT', 'COLORLESS'],
       COB: ['EVENT', 'BLUE'],
       CR: ['EVENT', 'RED'],
       FE: ['EVENT', 'RED'],
-      GU: ['EVENT', 'WHITE'],
-      PH: ['EVENT', 'WHITE'],
-      PU: ['EVENT', 'WHITE'],
-      TAB: ['EVENT', 'WHITE'],
+      GU: ['EVENT', 'COLORLESS'],
+      PH: ['EVENT', 'COLORLESS'],
+      PU: ['EVENT', 'COLORLESS'],
+      TAB: ['EVENT', 'COLORLESS'],
       VI: ['EVENT', 'BLUE'],
-      WI: ['EVENT', 'WHITE'],
-      DIG: ['EVENT', 'WHITE']
+      WI: ['EVENT', 'COLORLESS'],
+      DIG: ['EVENT', 'COLORLESS']
     };
 
     let xOffset = 0;
