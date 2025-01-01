@@ -3,7 +3,7 @@ function drawHive(x, y, radius, slots) {
         COMMON: color(188, 128, 52),
         RARE: color(208, 209, 216),
         EPIC: color(224, 191, 9),
-        LEGENDARY: color(255, 229, 12),
+        LEGENDARY: color(79, 255, 240),
         MYTHIC: color(183, 158, 247),
         EVENT: color(147, 220, 98),
         U: color(117, 101, 33),
