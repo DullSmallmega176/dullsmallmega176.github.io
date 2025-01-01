@@ -36,6 +36,7 @@
       BE: BEAR,
       COB: COBALT,
       CR: CRIMSON,
+      DIG: DIGITAL,
       FE: FESTIVE,
       GU: GUMMY,
       PH: PHOTON,
