@@ -6,7 +6,7 @@ function drawHive(x, y, radius, slots) {
         LEGENDARY: color(79, 255, 240),
         MYTHIC: color(183, 158, 247),
         EVENT: color(147, 220, 98),
-        EMPTY: color(117, 101, 33),
+        U: color(117, 101, 33), // unselected or empty
         SELECTED: color(27, 209, 94)
     };
     
@@ -75,7 +75,7 @@ function drawHive(x, y, radius, slots) {
 
     for (let i = 0; i < slots.length; i++) {
       let bee = slots[i].toUpperCase();
-      let rarity = slots[i] != 'EMPTY' ? bees[bee][0] : 'EMPTY';
+      let rarity = slots[i] != 'U' ? bees[bee][0] : 'U';
       let fillColour = rarities[rarity];
 
       if (i > 0 && i % 5 == 0) {
@@ -93,7 +93,7 @@ function drawHive(x, y, radius, slots) {
 
       hexes.push({x: x + xOffset, y: y + yOffset, bee: bee, type: rarity});
 
-      if (slots[i] == 'EMPTY') {
+      if (slots[i] == 'U') {
         if (hexes[i].type != 'SELECTED') {
           fill(rarities.U);
         } else {
@@ -107,11 +107,11 @@ function drawHive(x, y, radius, slots) {
         fill(fillColour);
       }
       
-      if (slots[i] != 'EMPTY') {
+      if (slots[i] != 'U') {
         hexagon(hexes[hexes.length - 1].x, hexes[hexes.length - 1].y, radius);
       }
 
-      if (slots[i] != 'EMPTY') {
+      if (slots[i] != 'U') {
         let imgName = `bee_${slots[i].toUpperCase()}`;
         let img = bee_imgs[imgName];
         if (slots[i] != 'LO' || slots[i] != 'CA') {
@@ -152,7 +152,7 @@ function drawHive(x, y, radius, slots) {
         yOffset -= radius / 1.1;
       }
       xOffset += radius * 1.5;
-      hexes.push({x: x + xOffset, y: y + yOffset, bee: 'EMPTY', type: 'EMPTY'});
+      hexes.push({x: x + xOffset, y: y + yOffset, bee: 'U', type: 'U'});
       for (let j = 1; j < 25 - slots.length + 1; j++) {
         stroke(get(0, 0));
         if (hexes[j + slots.length - 1].type == 'SELECTED') {
@@ -172,7 +172,7 @@ function drawHive(x, y, radius, slots) {
         }
         xOffset += radius * 1.5;
         
-        hexes.push({x: x + xOffset, y: y + yOffset, bee: 'EMPTY', type: 'EMPTY'});
+        hexes.push({x: x + xOffset, y: y + yOffset, bee: 'U', type: 'U'});
       }
       hexes.pop();
       let isNormal = true;
