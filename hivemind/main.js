@@ -147,6 +147,7 @@ function draw() {
         let textY = height / 2 + map(sin(frameCount * 0.025), -1, 1, -20, 20);
         noStroke();
         text('welcome to hivemind!', width/2, textY);
+        textSize(25);
         text("Dully's edited version uuuh 1", width/2, textY+30);
         select('#headerTitle').html('&nbsp&nbsphivemind');
         if (getItem('hive')) {
