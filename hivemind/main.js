@@ -147,7 +147,7 @@ function draw() {
         let textY = height / 2 + map(sin(frameCount * 0.025), -1, 1, -20, 20);
         noStroke();
         text('welcome to hivemind!', width/2, textY);
-        text('the PLEASE HELP ME version', width/2, textY+10);
+        text('the PLEASE HELP ME version', width/2, textY+60);
         select('#headerTitle').html('&nbsp&nbsphivemind');
         if (getItem('hive')) {
             select('#appButton-2').attribute('data-status', 'active');

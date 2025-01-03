@@ -48,7 +48,7 @@ function drawHive(x, y, radius, slots) {
     LI: ['LEGENDARY', 'COLORLESS'],
     MU: ['LEGENDARY', 'COLORLESS'],
     NI: ['LEGENDARY', 'BLUE'],
-    SHY: ['LEGENDARY', 'COLORLESS'],
+    SHY: ['LEGENDARY', 'RED'],
     // mythic
     BUO: ['MYTHIC', 'BLUE'],
     FU: ['MYTHIC', 'COLORLESS'],
@@ -114,7 +114,7 @@ function drawHive(x, y, radius, slots) {
     if (slots[i] != 'U') {
       let imgName = `bee_${slots[i].toUpperCase()}`;
       let img = bee_imgs[imgName];
-      if (slots[i] != 'LO' && slots[i] != 'CA') {
+      if (slots[i].toUpperCase() != 'LO' && slots[i].toUpperCase() != 'CA') {
           tint(colours[bees[slots[i].toUpperCase()][1]]);
       } else {
         noTint();
