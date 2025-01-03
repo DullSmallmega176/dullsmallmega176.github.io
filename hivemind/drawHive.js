@@ -6,7 +6,7 @@ function drawHive(x, y, radius, slots) {
         LEGENDARY: color(79, 255, 240),
         MYTHIC: color(183, 158, 247),
         EVENT: color(147, 220, 98),
-        U: color(117, 101, 33), // unselected or empty
+        U: color(117, 101, 33),
         SELECTED: color(27, 209, 94)
     };
     
@@ -114,8 +114,8 @@ function drawHive(x, y, radius, slots) {
       if (slots[i] != 'U') {
         let imgName = `bee_${slots[i].toUpperCase()}`;
         let img = bee_imgs[imgName];
-        if (slots[i] != 'LO' || slots[i] != 'CA') {
-            tint(colours[bees[slots[i].toUpperCase()][1]]);
+        if (slots[i] != 'LO' && slots[i] != 'CA') {
+          tint(colours[bees[slots[i].toUpperCase()][1]]);
         } else {
           noTint();
         }
