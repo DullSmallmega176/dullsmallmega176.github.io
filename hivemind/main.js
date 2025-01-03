@@ -127,6 +127,12 @@ function setup() {
     select('#eventMax').mouseClicked(expandPanel.bind(null, 'event'));
     select('#eventMin').mouseClicked(expandPanel.bind(null, 'event', 'true'));
 
+    select('#mutationMax').mouseClicked(expandPanel.bind(null, 'mutation'));
+    select('#mutationMin').mouseClicked(expandPanel.bind(null, 'mutation', 'true'));
+
+    select('#beequipMax').mouseClicked(expandPanel.bind(null, 'beequip'));
+    select('#beequipMin').mouseClicked(expandPanel.bind(null, 'beequip', 'true'));
+
     select('#btn-U').mouseClicked(changeSlot.bind(null, 'U'));
 
     gifted = createCheckbox('gifted (alt)')
@@ -148,7 +154,7 @@ function draw() {
         noStroke();
         text('welcome to hivemind!', width/2, textY);
         textSize(25);
-        text("Dully's edited version uuuh 1", width/2, textY+30);
+        text("Dully's edited version uuuh 2", width/2, textY+30);
         select('#headerTitle').html('&nbsp&nbsphivemind');
         if (getItem('hive')) {
             select('#appButton-2').attribute('data-status', 'active');
