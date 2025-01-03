@@ -147,7 +147,8 @@ function draw() {
         let textY = height / 2 + map(sin(frameCount * 0.025), -1, 1, -20, 20);
         noStroke();
         text('welcome to hivemind!', width/2, textY);
-        text('the PLEASE HELP ME version', width/2, textY+60);
+        textSize(25);
+        text("Dully's edited version uuuh 1", width/2, textY+30);
         select('#headerTitle').html('&nbsp&nbsphivemind');
         if (getItem('hive')) {
             select('#appButton-2').attribute('data-status', 'active');
@@ -353,7 +354,7 @@ function importText() {
     if (!code) { return; }
     code = code.split(';');
     hive.name = code.shift();
-    if (!code[-1]) {
+    if (!code[code.length-1 === '']) {
         code.pop();
     }
     hive.slots = [...code];
