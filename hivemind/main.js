@@ -353,7 +353,7 @@ function importText() {
     if (!code) { return; }
     code = code.split(';');
     hive.name = code.shift();
-    if (!code[code.length-1 === '']) {
+    if (code[code.length-1 === '']) {
         code.pop();
     }
     hive.slots = [...code];
