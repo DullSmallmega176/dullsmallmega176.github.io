@@ -1,4 +1,15 @@
 function drawHive(x, y, radius, slots) {
+  const mutations = {
+    NONE: color(255, 254, 254),
+    ATTACK: color(234, 59, 54),
+    CONVERTAMOUNT: color(249, 198, 64),
+    GATHERAMOUNT: color(202, 250, 124),
+    ENERGY: color(172, 138, 88),
+    BEEABILITYRATE: color(185, 165, 240),
+    CRITICALCHANCE: color(70, 209, 112),
+    MOVESPEED: color(79, 184, 242),
+    INSTANTCONVERSION: color(245, 254, 29)
+  }
   const rarities = {
       COMMON: color(188, 128, 52),
       RARE: color(208, 209, 216),
