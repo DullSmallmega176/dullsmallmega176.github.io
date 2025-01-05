@@ -387,6 +387,7 @@ function exportImage() {
     pg.text(hive.name, pg.width/2, 25);
     pg.textAlign(LEFT, TOP);
     pg.textSize(10);
+    pg.image(cnv, 0, 50);
     const total = new Map();
     hive.slots.forEach(i => {
         const k = i.toUpperCase();
@@ -395,11 +396,9 @@ function exportImage() {
     let offset = 20;
     total.forEach((v, k) => {
         const name = beeList.get(k) || k;
-        console.log(`${name}: ${v}`);
         pg.text(`${name}: ${v}`, 10, offset);
         offset += 15;
     });
-    pg.image(cnv, 0, 50);
     let fname = hive.name.replace(/[/\\?%*:|"<>]/g, '-');
     save(pg, `${fname}.png`);
 }
