@@ -217,7 +217,7 @@ function level(x, y, number) {
   let posY = y;
   textFont(hwfnt);
   textAlign(CENTER, CENTER);
-  textSize(17);
+  textSize(16);
   stroke(0);
   strokeWeight(2);
   fill(255);
