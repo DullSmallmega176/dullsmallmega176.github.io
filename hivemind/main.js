@@ -8,6 +8,7 @@ const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 function preload() {
     fnt = loadFont('assets/RobotoSlab-VariableFont_wght.ttf');
+    hwfnt = loadFont('assets/HWYGNRRW.ttf');
     bee_imgs['bee_BA'] = loadImage('assets/bees/bee_BA.png');  
     bee_imgs['bee_BAB'] = loadImage('assets/bees/bee_BAB.png');
     bee_imgs['bee_BE'] = loadImage('assets/bees/bee_BE.png');  
@@ -196,7 +197,7 @@ function draw() {
         noStroke();
         text('welcome to hivemind!', width/2, textY);
         textSize(25);
-        text("Dully's edited version uuuh 6", width/2, textY+30);
+        text("Dully's edited version uuuh 7", width/2, textY+30);
         select('#headerTitle').html('&nbsp&nbsphivemind');
         if (getItem('hive')) {
             select('#appButton-2').attribute('data-status', 'active');

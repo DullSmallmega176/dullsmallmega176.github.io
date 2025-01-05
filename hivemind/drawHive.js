@@ -119,7 +119,10 @@ function drawHive(x, y, radius, slots) {
     }
     
     if (slots[i] != 'U') {
-      hexagon(hexes[hexes.length - 1].x, hexes[hexes.length - 1].y, radius);
+      let x = hexes[hexes.length - 1].x;
+      let y = hexes[hexes.length - 1].y;
+      hexagon(x, y, radius);
+      level(x, y, 21);
     }
 
     if (slots[i] != 'U') {
@@ -207,4 +210,15 @@ function hexagon(x, y, radius) {
     vertex(sx, sy);
   }
   endShape(CLOSE);
+}
+
+function level(x, y, number) {
+  let posX = x-30;
+  let posY = y;
+  textFont(hwfnt);
+  textAlign(CENTER, CENTER);
+  textSize(14);
+  fill(0);
+  text(number, posX, posY);
+  textFont(fnt);
 }
