@@ -196,7 +196,7 @@ function draw() {
         noStroke();
         text('welcome to hivemind!', width/2, textY);
         textSize(25);
-        text("Dully's edited version uuuh 3", width/2, textY+30);
+        text("Dully's edited version uuuh 4", width/2, textY+30);
         select('#headerTitle').html('&nbsp&nbsphivemind');
         if (getItem('hive')) {
             select('#appButton-2').attribute('data-status', 'active');
@@ -377,6 +377,7 @@ function saveHive() {
 }
 
 function exportImage() {
+    const beeList = new Map([['BA', 'Basic Bee'], ['BO', 'Bomber Bee'], ['BR', 'Brave Bee'], ['BU', 'Bumble Bee'],['CO', 'Cool Bee'], ['HA', 'Hasty Bee'], ['LO', 'Looker Bee'], ['RA', 'Rad Bee'],['RAS', 'Rascal Bee'], ['ST', 'Stubborn Bee'], ['BUB', 'Bubble Bee'], ['BUC', 'Bucko Bee'],['COM', 'Commander Bee'], ['DE', 'Demo Bee'], ['EX', 'Exhausted Bee'], ['FI', 'Fire Bee'],['FR', 'Frosty Bee'], ['HO', 'Honey Bee'], ['RAG', 'Rage Bee'], ['RI', 'Riley Bee'],['SH', 'Shocked Bee'], ['BAB', 'Baby Bee'], ['CA', 'Carpenter Bee'], ['DEM', 'Demon Bee'],['DI', 'Diamond Bee'], ['LI', 'Lion Bee'], ['MU', 'Music Bee'], ['NI', 'Ninja Bee'],['SHY', 'Shy Bee'], ['BUO', 'Buoyant Bee'], ['FU', 'Fuzzy Bee'], ['PR', 'Precise Bee'],['SP', 'Spicy Bee'], ['TA', 'Tadpole Bee'], ['VE', 'Vector Bee'], ['BE', 'Bear Bee'],['COB', 'Cobalt Bee'], ['CR', 'Crimson Bee'], ['FE', 'Festive Bee'], ['GU', 'Gummy Bee'],['PH', 'Photon Bee'], ['PU', 'Puppy Bee'], ['TAB', 'Tabby Bee'], ['VI', 'Vicious Bee'],['WI', 'Windy Bee'], ['DIG', 'Digital Bee']]);
     let pg = createGraphics(472, 613);
     pg.background(select('body').style('color'));
     pg.textSize(30);
@@ -386,6 +387,17 @@ function exportImage() {
     pg.text(hive.name, pg.width/2, 25);
     pg.textAlign(LEFT, TOP);
     pg.textSize(10);
+    const total = new Map();
+    hive.slots.forEach(i => {
+        const k = i.toUpperCase();
+        total.set(k, (total.get(k) || 0) + 1);
+    });
+    let offset = 50;
+    total.forEach((v, k) => {
+        const name = beeList.get(k) || k;
+        pg.text(`${name}: ${v}`, 4, offset);
+        offset+=15;
+    });
     pg.image(cnv, 0, 50);
     let fname = hive.name.replace(/[/\\?%*:|"<>]/g, '-');
     save(pg, `${fname}.png`);
