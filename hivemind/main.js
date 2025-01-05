@@ -196,7 +196,7 @@ function draw() {
         noStroke();
         text('welcome to hivemind!', width/2, textY);
         textSize(25);
-        text("Dully's edited version uuuh 4", width/2, textY+30);
+        text("Dully's edited version uuuh 4.1", width/2, textY+30);
         select('#headerTitle').html('&nbsp&nbsphivemind');
         if (getItem('hive')) {
             select('#appButton-2').attribute('data-status', 'active');
@@ -393,6 +393,7 @@ function exportImage() {
         total.set(k, (total.get(k) || 0) + 1);
     });
     let offset = 50;
+    console.log(total);
     total.forEach((v, k) => {
         const name = beeList.get(k) || k;
         pg.text(`${name}: ${v}`, 4, offset);
