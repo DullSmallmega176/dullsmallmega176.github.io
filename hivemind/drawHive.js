@@ -213,12 +213,14 @@ function hexagon(x, y, radius) {
 }
 
 function level(x, y, number) {
-  let posX = x-30;
+  let posX = x-23;
   let posY = y;
   textFont(hwfnt);
   textAlign(CENTER, CENTER);
-  textSize(14);
-  fill(0);
+  textSize(17);
+  stroke(0);
+  strokeWeight(2);
+  fill(255);
   text(number, posX, posY);
   textFont(fnt);
 }
