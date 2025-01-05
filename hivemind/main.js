@@ -396,8 +396,9 @@ function exportImage() {
     console.log(total);
     total.forEach((v, k) => {
         const name = beeList.get(k) || k;
+        console.log(name);
         pg.text(`${name}: ${v}`, 4, offset);
-        offset+=15;
+        offset += 15;
     });
     pg.image(cnv, 0, 50);
     let fname = hive.name.replace(/[/\\?%*:|"<>]/g, '-');
