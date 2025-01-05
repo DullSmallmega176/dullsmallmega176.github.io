@@ -396,7 +396,7 @@ function exportImage() {
     console.log(total);
     total.forEach((v, k) => {
         const name = beeList.get(k) || k;
-        console.log(name);
+        console.log(`${name}: ${v}`);
         pg.text(`${name}: ${v}`, 4, offset);
         offset += 15;
     });
