@@ -1,4 +1,4 @@
-function drawHive(x, y, radius, slots) {
+function drawHive(x, y, radius, slots, level) {
   const mutations = {
     NONE: color(255, 254, 254),
     ATTACK: color(234, 59, 54),
@@ -119,10 +119,7 @@ function drawHive(x, y, radius, slots) {
     }
     
     if (slots[i] != 'U') {
-      let x = hexes[hexes.length - 1].x;
-      let y = hexes[hexes.length - 1].y;
-      hexagon(x, y, radius);
-      level(x, y, 21);
+      hexagon(hexes[hexes.length - 1].x, hexes[hexes.length - 1].y, radius);
     }
 
     if (slots[i] != 'U') {
@@ -133,15 +130,20 @@ function drawHive(x, y, radius, slots) {
       } else {
         noTint();
       }
-      imageMode(CENTER)
+      imageMode(CENTER);
       image(img, x + xOffset, y + yOffset, radius + 8, radius + 8);
+      try {
+        let lvl = level[i].toString();
+        displayLevel(hexes[hexes.length - 1].x, hexes[hexes.length - 1].y, lvl ? lvl:'');
+      } catch(error){
+      }
     }
 
     if (slots[i] == slots[i].toLowerCase()) {
       stroke('#ff0');
       strokeWeight(4);
       noFill();
-      hexagon(x + xOffset, y + yOffset, radius - 4.5);
+      hexagon(x + xOffset, y + yOffset, radius - 2);
     }
 
     let isNormal = true;
@@ -212,13 +214,15 @@ function hexagon(x, y, radius) {
   endShape(CLOSE);
 }
 
-function level(x, y, number) {
-  let posX = x-23;
+function displayLevel(x, y, number) {
+  let posX = x-15;
   let posY = y;
   textFont(hwfnt);
   textAlign(CENTER, CENTER);
   textSize(17);
-  fill(0);
+  fill(255);
+  stroke(0);
+  strokeWeight(2);
   text(number, posX, posY);
   textFont(fnt);
 }

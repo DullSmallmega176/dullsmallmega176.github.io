@@ -101,7 +101,7 @@ function preload() {
 
 function setup() {
     cnv = createCanvas(957, 506);
-    
+    frameRate(30);
     lightModeBtn = select('#lightMode');
     darkModeBtn = select('#darkMode');
     setMode('menu');
@@ -109,10 +109,13 @@ function setup() {
 
     theme = getItem('theme') ?? 'light';
     setTheme(theme);
-
+    
     hive = {
         name: 'hive',
-        slots: []
+        slots: [],
+        level: [],
+        mutation: [],
+        beequip: []
     };
     hexes = [];
     hexesNormal = [];
@@ -197,7 +200,7 @@ function draw() {
         noStroke();
         text('welcome to hivemind!', width/2, textY);
         textSize(25);
-        text("Dully's edited version uuuh 8", width/2, textY+30);
+        text("Dully's edited version uuuh 9", width/2, textY+30);
         select('#headerTitle').html('&nbsp&nbsphivemind');
         if (getItem('hive')) {
             select('#appButton-2').attribute('data-status', 'active');
@@ -209,7 +212,7 @@ function draw() {
     // app
     if (mode == 'app') {
         select('#headerTitle').html(`&nbsp&nbsphivemind - ${hive.name}`);
-        drawHive(width / 2 - 140, height-17.5, 30, hive.slots);
+        drawHive(width / 2 - 140, height-17.5, 30, hive.slots, hive.level);
         hexes = hexes.splice(0, hive.slots.length < 25 ? 25 : hive.slots.length);
         if (hive.slots.length >= 50 || selected.length != 0) {
             select('#addSlot').attribute('disabled', '');
@@ -405,22 +408,46 @@ function exportImage() {
 }
 
 function exportText() {
-    navigator.clipboard.writeText(hive.name + ';' + hive.slots.join(';')).then(() => {
+    let slotLength = hive.slots.length;
+    if (!hive.level) hive.level = [];
+    if (!hive.mutation) hive.mutation = [];
+    if (!hive.beequip) hive.beequip = [];
+    while (hive.level.length < slotLength) {
+        hive.level.push(null);
+    }
+    while (hive.mutation.length < slotLength) {
+        hive.mutation.push(null);
+    }
+    while (hive.beequip.length < slotLength) {
+        hive.beequip.push(null);
+    }
+    const hiveData = {
+        name: hive.name,
+        slots: hive.slots,
+        level: hive.level,
+        mutation: hive.mutation,
+        beequip:hive.beequip
+    };
+    const jsonStr = JSON.stringify(hiveData);
+    navigator.clipboard.writeText(jsonStr).then(() => {
         alert('copied to clipboard!');
     });
 }
 
 function importText() {
-    let code = prompt('enter hive code:');
-    if (!code) { return; }
-    code = code.split(';');
-    hive.name = code.shift();
-    if (code[code.length-1 === '']) {
-        code.pop();
+    let jsonStr = prompt('Enter hive data:')
+    if (!jsonStr) { return; }
+    try {
+        const hiveData = JSON.parse(jsonStr);
+        hive.name = hiveData.name;
+        hive.slots = hiveData.slots || [];
+        hive.level = hiveData.level || [];
+        hive.mutation = hiveData.mutation || [];
+        hive.beequip = hiveData.beequip || [];
+        setMode('app', true);
+    } catch (error) {
+        alert('Invalid hive data.')
     }
-    hive.slots = [...code];
-    console.log(hive.slots);
-    setMode('app', true);
 }
 
 function expandPanel(type, collapse) {

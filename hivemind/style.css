@@ -195,7 +195,7 @@ button {
     transform: translate(0%, -100%);
 }
 
-#bees-common *, #bees-rare *, #bees-epic *, #bees-legend *, #bees-mythic *, #bees-event * {
+#bees-common *, #bees-rare *, #bees-epic *, #bees-legend *, #bees-mythic *, #bees-event *, #bees-mutation *, #bees-beequip * {
     width: 32%;
 }
 
