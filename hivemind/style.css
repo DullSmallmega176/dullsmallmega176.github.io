@@ -195,8 +195,12 @@ button {
     transform: translate(0%, -100%);
 }
 
-#bees-general *, #bees-common *, #bees-rare *, #bees-epic *, #bees-legend *, #bees-mythic *, #bees-event *, #bees-mutation *, #bees-beequip * {
+#bees-common *, #bees-rare *, #bees-epic *, #bees-legend *, #bees-mythic *, #bees-event *, #bees-mutation *, #bees-beequip * {
     width: 32%;
+}
+
+#btn-U {
+    transform: translateY(-65%);
 }
 
 @keyframes save-fadeout {
