@@ -1,4 +1,4 @@
-let lightModeBtn, darkModeBtn, mode, cnv, fnt, theme, hive, hiveSaved, hexes, hexesNormal, selected, multSelt, gifted, bee_btns;
+let lightModeBtn, darkModeBtn, mode, cnv, fnt, theme, hive, hiveSaved, hexes, hexesNormal, selected, multSelt, gifted, bee_btns, bqp_btns, mut_btns;
 const bee_imgs = {};
 const bqp_imgs = {};
 const queryString = window.location.search;
@@ -120,18 +120,48 @@ function setup() {
     hexes = [];
     hexesNormal = [];
     selected = [];
-    bee_btns = selectAll('.beePanel div.bee-section button');
-    
-    if (urlParams.has('hive')) {
-        hiveParams = urlParams.get('hive');
-        if (hiveParams.substr(hiveParams.length - 1) != ';') { hiveParams += ';'; }
-        code = hiveParams.split(';');
-        hive.name = code.shift();
-        if (!code[-1]) {
-            code.pop();
+    allButtons = selectAll('.beePanel div.bee-section button');
+
+    bee_btns = [];
+    bqp_btns = [];
+    mut_btns = [];
+
+    allButtons.forEach(wrappedBtn => {
+        btn = wrappedBtn.elt;
+        parentId = btn.parentElement.id;
+
+        if (['bees-common', 'bees-rare', 'bees-epic', 'bees-legend', 'bees-mythic', 'bees-event'].includes(parentId)) {
+            bee_btns.push(wrappedBtn);
+        } 
+        else if (parentId === 'bees-beequip') {
+            bqp_btns.push(wrappedBtn);
+        } 
+        else if (parentId === 'bees-mutation') {
+            mut_btns.push(wrappedBtn);
         }
-        hive.slots = [...code];
-        setMode('app', true);
+    });
+
+    if (urlParams.has('hive')) {
+        let hiveParams = urlParams.get('hive');
+        try {
+            hive = JSON.parse(hiveParams);
+
+            hive.slots = hive.slots || [];
+            hive.level = hive.level || new Array(hive.slots.length).fill(0);
+            hive.mutation = hive.mutation || new Array(hive.slots.length).fill(null);
+            hive.beequip = hive.beequip || new Array(hive.slots.length).fill(null);
+
+            setMode('app', true);
+        } catch (e) {
+            console.error('Failed to parse hive:', e);
+            hive = {
+                name: 'hive',
+                slots: [],
+                level: [],
+                mutation: [],
+                beequip: []
+            };
+        }
     }
 
     // buttons
@@ -154,6 +184,9 @@ function setup() {
 
     multSelt = createCheckbox('select multiple (shift)')
         .parent(select('#multSeltCon'));
+    
+    select('#generalMax').mouseClicked(expandPanel.bind(null, 'general'));
+    select('#generalMin').mouseClicked(expandPanel.bind(null, 'general', 'true'));
 
     select('#commonMax').mouseClicked(expandPanel.bind(null, 'common'));
     select('#commonMin').mouseClicked(expandPanel.bind(null, 'common', 'true'));
@@ -179,7 +212,9 @@ function setup() {
     select('#beequipMax').mouseClicked(expandPanel.bind(null, 'beequip'));
     select('#beequipMin').mouseClicked(expandPanel.bind(null, 'beequip', 'true'));
 
-    select('#btn-U').mouseClicked(changeSlot.bind(null, 'U'));
+    select('#btn-U').mouseClicked(changeSlot.bind(null, 'U', 'bee'));
+
+    select('#btn-LVL').mouseClicked(changeSlot.bind(null, 0, 'level'));
 
     gifted = createCheckbox('gifted (alt)')
         .id('giftedSelect')
@@ -200,7 +235,7 @@ function draw() {
         noStroke();
         text('welcome to hivemind!', width/2, textY);
         textSize(25);
-        text("Dully's edited version uuuh 9", width/2, textY+30);
+        text("With dully improvements 420", width/2, textY+30);
         select('#headerTitle').html('&nbsp&nbsphivemind');
         if (getItem('hive')) {
             select('#appButton-2').attribute('data-status', 'active');
@@ -212,7 +247,7 @@ function draw() {
     // app
     if (mode == 'app') {
         select('#headerTitle').html(`&nbsp&nbsphivemind - ${hive.name}`);
-        drawHive(width / 2 - 140, height-17.5, 30, hive.slots, hive.level);
+        drawHive(width / 2 - 140, height-17.5, 30, hive.slots, hive.level, hive.mutation, hive.beequip);
         hexes = hexes.splice(0, hive.slots.length < 25 ? 25 : hive.slots.length);
         if (hive.slots.length >= 50 || selected.length != 0) {
             select('#addSlot').attribute('disabled', '');
@@ -237,7 +272,15 @@ function draw() {
         }
 
         for (const i of bee_btns) {
-            i.mouseClicked(changeSlot.bind(null, i.id().slice(4)));
+            i.mouseClicked(changeSlot.bind(null, i.id().slice(4), 'bee'));
+        }
+
+        for (const i of bqp_btns) {
+            i.mouseClicked(changeSlot.bind(null, i.id().slice(4), 'beequip'));
+        }
+
+        for (const i of mut_btns) {
+            i.mouseClicked(changeSlot.bind(null, i.id().slice(4), 'mutation'));
         }
     }
 }
@@ -278,7 +321,10 @@ function loadHive() {
 function newHive() {
     hive = {
         name: 'hive',
-        slots: []
+        slots: [],
+        level: [],
+        mutation: [],
+        beequip: []
     };
     hexes = [];
     hexesNormal = [];
@@ -323,9 +369,16 @@ function setMode(m, loaded=false) {
             let x = prompt('enter hive name (max 15 chars): (this can be changed later)', 'hive');
             if (!x) { return; }
             hive.name = x.substring(0, 16);
+
             let n = prompt('how many hive slots will the hive use (25-50): (this can be changed later)', '50');
             if (!isNaN(n) && !isNaN(parseFloat(n))) {
-                hive.slots = new Array(clamp(parseInt(n), 25, 50)).fill('U');
+                const slotCount = clamp(parseInt(n), 25, 50);
+                hive.slots = new Array(slotCount).fill('U');
+
+                // initialize other arrays to match
+                hive.level = new Array(slotCount).fill(0);
+                hive.mutation = new Array(slotCount).fill(null);
+                hive.beequip = new Array(slotCount).fill(null);
             } else {
                 return;
             }
@@ -347,17 +400,17 @@ function madeChanges() {
 }
 
 function addSlot() {
-    if (hive.slots.length < 25) {
-        while (hive.slots.length != 26) {
-            hive.slots.push('U');
-        }
-    } else {
-        hive.slots.push('U');
-    }
+    hive.slots.push('U');
+    hive.level.push(0);
+    hive.mutation.push(null);
+    hive.beequip.push(null);
 }
 
 function removeSlot() {
     hive.slots.pop();
+    hive.level.pop();
+    hive.mutation.pop();
+    hive.beequip.pop();
 }
 
 function changeName() {
@@ -413,7 +466,7 @@ function exportText() {
     if (!hive.mutation) hive.mutation = [];
     if (!hive.beequip) hive.beequip = [];
     while (hive.level.length < slotLength) {
-        hive.level.push(null);
+        hive.level.push(0);
     }
     while (hive.mutation.length < slotLength) {
         hive.mutation.push(null);
@@ -462,21 +515,36 @@ function expandPanel(type, collapse) {
     }
 }
 
-function changeSlot(type) {
+function changeSlot(type, category) {
     if (hive.slots.length < 25) {
         while (hive.slots.length != 25) {
             hive.slots.push('U');
         }
     }
+    let level = null;
+    if (category === 'level') {
+        let n = prompt('What level do you want to set the selected hive slots ?', '20');
+        if (!n || isNaN(n)) return;
+        level = clamp(parseInt(n), 1, 25);
+    }
+
     for (const i of selected) {
-        if (!keyIsDown(ALT) && !gifted.checked()) {
-            hive.slots[i] = type;
-        } else {
-            if (type == 'U') {
-                hive.slots[i] = 'U';
+        if (category === 'bee') {
+            if (!keyIsDown(ALT) && !gifted.checked()) {
+                hive.slots[i] = type;
             } else {
-                hive.slots[i] = type.toLowerCase();
+                if (type == 'U') {
+                    hive.slots[i] = 'U';
+                } else {
+                    hive.slots[i] = type.toLowerCase();
+                }
             }
+        } else if (category === 'mutation') {
+            hive.mutation[i] = type;
+        } else if (category === 'beequip') {
+            hive.beequip[i] = type;
+        } else if (category === 'level') {
+            hive.level[i] = level+0;
         }
         selected = [];
         hexes = hexesNormal.splice();

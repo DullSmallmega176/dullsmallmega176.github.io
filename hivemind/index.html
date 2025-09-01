@@ -39,6 +39,25 @@
         <div class="canvasContainer"></div>
         <div class="beePanel">
             <div id="multSeltCon"></div>
+            <div id="general">
+                <div class="beeHead">
+                    <p class="beeTitle">General</p>
+                    <button id="generalMax" class="minMax" data-status="inactive">
+                        <span class="material-symbols-outlined">
+                        add
+                        </span>
+                    </button>
+                    <button id="generalMin" class="minMax" data-status="active">
+                        <span class="material-symbols-outlined">
+                        remove
+                        </span>
+                    </button>
+                </div>
+                <div id="bees-general" class="bee-section" data-status="active">
+                    <button id="btn-U">Empty slot</button>
+                    <button id="btn-LVL">Set Level</button>
+                </div>
+            </div>
             <div id="commonBees">
                 <div class="beeHead">
                     <p class="beeTitle">Common Bees</p>
@@ -189,7 +208,7 @@
             </div>
             <div id="mutations">
                 <div class="beeHead">
-                    <p class="beeTitle">Mutations-WIP</p>
+                    <p class="beeTitle">Mutations</p>
                     <button id="mutationMax" class="minMax" data-status="inactive">
                         <span class="material-symbols-outlined">
                         add
@@ -214,7 +233,7 @@
             </div>
             <div id="beequips">
                 <div class="beeHead">
-                    <p class="beeTitle">Beequips-WIP</p>
+                    <p class="beeTitle">Beequips</p>
                     <button id="beequipMax" class="minMax" data-status="inactive">
                         <span class="material-symbols-outlined">
                         add
@@ -271,7 +290,6 @@
                 </div>
             </div>
             <br>
-            <button id="btn-U">Empty slot</button>
         </div>
         <div class="toolPanel">
             <div class="left">
