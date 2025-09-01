@@ -1,9 +1,52 @@
-let lightModeBtn, darkModeBtn, mode, cnv, fnt, theme, hive, hiveSaved, hexes, hexesNormal, selected, multSelt, gifted, bee_btns;
+let lightModeBtn, darkModeBtn, mode, cnv, fnt, theme, hive, hiveSaved, hexes, hexesNormal, selected, multSelt, gifted, bee_btns, bqp_btns, mut_btns, dragging=false;
 const bee_imgs = {};
 const bqp_imgs = {};
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-// python3 -m http.server 8000 
+
+const sizeOverlay = document.createElement('div');
+sizeOverlay.style.position = 'fixed';
+sizeOverlay.style.top = 0;
+sizeOverlay.style.left = 0;
+sizeOverlay.style.width = '100%';
+sizeOverlay.style.height = '100%';
+sizeOverlay.style.backgroundColor = 'rgba(0,0,0,0.8)';
+sizeOverlay.style.color = '#fff';
+sizeOverlay.style.display = 'flex';
+sizeOverlay.style.alignItems = 'center';
+sizeOverlay.style.justifyContent = 'center';
+sizeOverlay.style.fontSize = '24px';
+sizeOverlay.style.zIndex = 9999;
+sizeOverlay.style.textAlign = 'center';
+sizeOverlay.style.padding = '20px';
+sizeOverlay.innerText = 'Please make your window bigger.\nGoing smaller might break the website visually.';
+document.body.appendChild(sizeOverlay);
+
+function isMobile() {
+    return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+if (isMobile()) {
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = 0;
+    overlay.style.left = 0;
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0,0,0,0.85)';
+    overlay.style.color = '#fff';
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
+    overlay.style.fontSize = '24px';
+    overlay.style.textAlign = 'center';
+    overlay.style.padding = '20px';
+    overlay.style.zIndex = 9999;
+    overlay.innerText = "Hivemind is not available on mobile devices.";
+    document.body.appendChild(overlay);
+    throw new Error('Mobile no more');
+}
+
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 function preload() {
@@ -109,7 +152,7 @@ function setup() {
 
     theme = getItem('theme') ?? 'light';
     setTheme(theme);
-
+    
     hive = {
         name: 'hive',
         slots: [],
@@ -117,12 +160,30 @@ function setup() {
         mutation: [],
         beequip: []
     };
-    
     hexes = [];
     hexesNormal = [];
     selected = [];
-    bee_btns = selectAll('.beePanel div.bee-section button');
-    
+    allButtons = selectAll('.beePanel div.bee-section button');
+
+    bee_btns = [];
+    bqp_btns = [];
+    mut_btns = [];
+
+    allButtons.forEach(wrappedBtn => {
+        btn = wrappedBtn.elt;
+        parentId = btn.parentElement.id;
+
+        if (['bees-common', 'bees-rare', 'bees-epic', 'bees-legend', 'bees-mythic', 'bees-event'].includes(parentId)) {
+            bee_btns.push(wrappedBtn);
+        } 
+        else if (parentId === 'bees-beequip') {
+            bqp_btns.push(wrappedBtn);
+        } 
+        else if (parentId === 'bees-mutation') {
+            mut_btns.push(wrappedBtn);
+        }
+    });
+
     if (urlParams.has('hive')) {
         let hiveParams = urlParams.get('hive');
         try {
@@ -146,7 +207,6 @@ function setup() {
         }
     }
 
-
     // buttons
 
     // goto app
@@ -167,6 +227,9 @@ function setup() {
 
     multSelt = createCheckbox('select multiple (shift)')
         .parent(select('#multSeltCon'));
+    
+    select('#generalMax').mouseClicked(expandPanel.bind(null, 'general'));
+    select('#generalMin').mouseClicked(expandPanel.bind(null, 'general', 'true'));
 
     select('#commonMax').mouseClicked(expandPanel.bind(null, 'common'));
     select('#commonMin').mouseClicked(expandPanel.bind(null, 'common', 'true'));
@@ -192,7 +255,9 @@ function setup() {
     select('#beequipMax').mouseClicked(expandPanel.bind(null, 'beequip'));
     select('#beequipMin').mouseClicked(expandPanel.bind(null, 'beequip', 'true'));
 
-    select('#btn-U').mouseClicked(changeSlot.bind(null, 'U'));
+    select('#btn-U').mouseClicked(changeSlot.bind(null, 'U', 'bee'));
+    select('#btn-LVL').mouseClicked(changeSlot.bind(null, 0, 'level'));
+    select('#btn-FLIP').mouseClicked(changeSlot.bind(null, 0, 'flip'));
 
     gifted = createCheckbox('gifted (alt)')
         .id('giftedSelect')
@@ -213,7 +278,7 @@ function draw() {
         noStroke();
         text('welcome to hivemind!', width/2, textY);
         textSize(25);
-        text("Dully's edited version uuuh 9", width/2, textY+30);
+        text("With dully improvements 69", width/2, textY+35);
         select('#headerTitle').html('&nbsp&nbsphivemind');
         if (getItem('hive')) {
             select('#appButton-2').attribute('data-status', 'active');
@@ -225,10 +290,6 @@ function draw() {
     // app
     if (mode == 'app') {
         select('#headerTitle').html(`&nbsp&nbsphivemind - ${hive.name}`);
-        //console.log(hive.slots);
-        //console.log(hive.level);
-        //console.log(hive.mutation);
-        //console.log(hive.beequip);
         drawHive(width / 2 - 140, height-17.5, 30, hive.slots, hive.level, hive.mutation, hive.beequip);
         hexes = hexes.splice(0, hive.slots.length < 25 ? 25 : hive.slots.length);
         if (hive.slots.length >= 50 || selected.length != 0) {
@@ -254,7 +315,25 @@ function draw() {
         }
 
         for (const i of bee_btns) {
-            i.mouseClicked(changeSlot.bind(null, i.id().slice(4)));
+            i.mouseClicked(changeSlot.bind(null, i.id().slice(4), 'bee'));
+        }
+
+        for (const i of bqp_btns) {
+            i.mouseClicked(changeSlot.bind(null, i.id().slice(4), 'beequip'));
+        }
+
+        for (const i of mut_btns) {
+            i.mouseClicked(changeSlot.bind(null, i.id().slice(4), 'mutation'));
+        }
+    }
+    
+    if (mode == 'app' && dragging) {
+        for (const [i, v] of hexes.entries()) {
+            if (dist(mouseX, mouseY, v.x, v.y) <= 25) {
+                if (!selected.includes(i)) {
+                    selected.push(i);
+                }
+            }
         }
     }
 }
@@ -273,11 +352,23 @@ function mouseClicked() {
                     selected.push(i);
                 }
             }
-            if (!onSlot) {
+            if (!onSlot && !keyIsDown(SHIFT)) {
                 selected = [];
                 hexes = hexesNormal.splice();
             }
         }
+    }
+}
+
+function mousePressed() {
+    if (mode === 'app' && keyIsDown(SHIFT)) {
+        dragging = true;
+    }
+}
+
+function mouseReleased() {
+    if (mode === 'app') {
+        dragging = false;
     }
 }
 
@@ -295,7 +386,10 @@ function loadHive() {
 function newHive() {
     hive = {
         name: 'hive',
-        slots: []
+        slots: [],
+        level: [],
+        mutation: [],
+        beequip: []
     };
     hexes = [];
     hexesNormal = [];
@@ -340,9 +434,16 @@ function setMode(m, loaded=false) {
             let x = prompt('enter hive name (max 15 chars): (this can be changed later)', 'hive');
             if (!x) { return; }
             hive.name = x.substring(0, 16);
+
             let n = prompt('how many hive slots will the hive use (25-50): (this can be changed later)', '50');
             if (!isNaN(n) && !isNaN(parseFloat(n))) {
-                hive.slots = new Array(clamp(parseInt(n), 25, 50)).fill('U');
+                const slotCount = clamp(parseInt(n), 25, 50);
+                hive.slots = new Array(slotCount).fill('U');
+
+                // initialize other arrays to match
+                hive.level = new Array(slotCount).fill(0);
+                hive.mutation = new Array(slotCount).fill(null);
+                hive.beequip = new Array(slotCount).fill(null);
             } else {
                 return;
             }
@@ -363,27 +464,18 @@ function madeChanges() {
     return false;
 }
 
-function syncHiveArrays() {
-    const len = hive.slots.length;
-
-    while (hive.level.length < len) hive.level.push(0);
-    hive.level = hive.level.slice(0, len);
-
-    while (hive.mutation.length < len) hive.mutation.push(null);
-    hive.mutation = hive.mutation.slice(0, len);
-
-    while (hive.beequip.length < len) hive.beequip.push(null);
-    hive.beequip = hive.beequip.slice(0, len);
-}
-
 function addSlot() {
     hive.slots.push('U');
-    syncHiveArrays();
+    hive.level.push(0);
+    hive.mutation.push(null);
+    hive.beequip.push(null);
 }
 
 function removeSlot() {
     hive.slots.pop();
-    syncHiveArrays();
+    hive.level.pop();
+    hive.mutation.pop();
+    hive.beequip.pop();
 }
 
 function changeName() {
@@ -462,8 +554,8 @@ function exportText() {
 }
 
 function importText() {
-    let jsonStr = prompt('Enter hive data:');
-    if (!jsonStr) return;
+    let jsonStr = prompt('Enter hive data:')
+    if (!jsonStr) { return; }
     try {
         const hiveData = JSON.parse(jsonStr);
         hive.name = hiveData.name;
@@ -471,10 +563,9 @@ function importText() {
         hive.level = hiveData.level || [];
         hive.mutation = hiveData.mutation || [];
         hive.beequip = hiveData.beequip || [];
-        syncHiveArrays();
         setMode('app', true);
     } catch (error) {
-        alert('Invalid hive data.');
+        alert('Invalid hive data.')
     }
 }
 
@@ -490,23 +581,50 @@ function expandPanel(type, collapse) {
     }
 }
 
-function changeSlot(type) {
+function changeSlot(type, category) {
     if (hive.slots.length < 25) {
         while (hive.slots.length != 25) {
             hive.slots.push('U');
         }
     }
-    for (const i of selected) {
-        if (!keyIsDown(ALT) && !gifted.checked()) {
-            hive.slots[i] = type;
-        } else {
-            if (type == 'U') {
-                hive.slots[i] = 'U';
+    let uniqueSelected = [...new Set(selected)];
+    let level = null;
+    if (category === 'level') {
+        let n = prompt('What level do you want to set the selected hive slots ?', '20');
+        if (!n || isNaN(n)) return;
+        level = clamp(parseInt(n), 1, 25);
+    }
+    for (const i of uniqueSelected) {
+        if (category === 'bee') {
+            if (!keyIsDown(ALT) && !gifted.checked()) {
+                hive.slots[i] = type;
             } else {
-                hive.slots[i] = type.toLowerCase();
+                hive.slots[i] = (type === 'U') ? 'U' : type.toLowerCase();
             }
+        } else if (category === 'mutation') {
+            hive.mutation[i] = type;
+        } else if (category === 'beequip') {
+            hive.beequip[i] = type;
+        } else if (category === 'level') {
+            hive.level[i] = level+0;
+        } else if (category === 'flip') {
+            let cur = hive.slots[i];
+            hive.slots[i] = (cur === cur.toUpperCase()) ? cur.toLowerCase() : cur.toUpperCase();
         }
-        selected = [];
-        hexes = hexesNormal.splice();
+    }
+    selected = [];
+    hexes = hexesNormal.splice();
+}
+
+function checkWindowSize() {
+    if (window.innerWidth < 850 || window.innerHeight < 660) {
+        sizeOverlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    } else {
+        sizeOverlay.style.display = 'none';
+        document.body.style.overflow = 'auto';
     }
 }
+
+window.addEventListener('load', checkWindowSize);
+window.addEventListener('resize', checkWindowSize);

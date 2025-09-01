@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
 
 :root {
-    --bg-light: #ebebeb;
-    --text-light: #3d3d3d;
-    --header-light: #d9d9d9;
-    --header-dark: #262626;
+    --bg-light: #e6e6e6;
+    --text-light: #313131;
+    --header-light: #e0e0e0;
+    --header-dark: #1f1f1f;
 }
 
 html {
@@ -195,12 +195,8 @@ button {
     transform: translate(0%, -100%);
 }
 
-#bees-common *, #bees-rare *, #bees-epic *, #bees-legend *, #bees-mythic *, #bees-event *, #bees-mutation *, #bees-beequip * {
+#bees-general *, #bees-common *, #bees-rare *, #bees-epic *, #bees-legend *, #bees-mythic *, #bees-event *, #bees-mutation *, #bees-beequip * {
     width: 32%;
-}
-
-#btn-U {
-    transform: translateY(-65%);
 }
 
 @keyframes save-fadeout {
