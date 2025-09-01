@@ -1,8 +1,51 @@
-let lightModeBtn, darkModeBtn, mode, cnv, fnt, theme, hive, hiveSaved, hexes, hexesNormal, selected, multSelt, gifted, bee_btns, bqp_btns, mut_btns;
+let lightModeBtn, darkModeBtn, mode, cnv, fnt, theme, hive, hiveSaved, hexes, hexesNormal, selected, multSelt, gifted, bee_btns, bqp_btns, mut_btns, dragStart=null, dragging=false;
 const bee_imgs = {};
 const bqp_imgs = {};
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
+
+const sizeOverlay = document.createElement('div');
+sizeOverlay.style.position = 'fixed';
+sizeOverlay.style.top = 0;
+sizeOverlay.style.left = 0;
+sizeOverlay.style.width = '100%';
+sizeOverlay.style.height = '100%';
+sizeOverlay.style.backgroundColor = 'rgba(0,0,0,0.8)';
+sizeOverlay.style.color = '#fff';
+sizeOverlay.style.display = 'flex';
+sizeOverlay.style.alignItems = 'center';
+sizeOverlay.style.justifyContent = 'center';
+sizeOverlay.style.fontSize = '24px';
+sizeOverlay.style.zIndex = 9999;
+sizeOverlay.style.textAlign = 'center';
+sizeOverlay.style.padding = '20px';
+sizeOverlay.innerText = 'Please make your window bigger.\nGoing smaller might break the website visually.';
+document.body.appendChild(sizeOverlay);
+
+function isMobile() {
+    return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+if (isMobile()) {
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = 0;
+    overlay.style.left = 0;
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0,0,0,0.85)';
+    overlay.style.color = '#fff';
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
+    overlay.style.fontSize = '24px';
+    overlay.style.textAlign = 'center';
+    overlay.style.padding = '20px';
+    overlay.style.zIndex = 9999;
+    overlay.innerText = "Hivemind is not available on mobile devices.";
+    document.body.appendChild(overlay);
+    throw new Error('Mobile no more');
+}
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
@@ -235,7 +278,7 @@ function draw() {
         noStroke();
         text('welcome to hivemind!', width/2, textY);
         textSize(25);
-        text("With dully improvements 420", width/2, textY+30);
+        text("With dully improvements 420", width/2, textY+35);
         select('#headerTitle').html('&nbsp&nbsphivemind');
         if (getItem('hive')) {
             select('#appButton-2').attribute('data-status', 'active');
@@ -283,6 +326,16 @@ function draw() {
             i.mouseClicked(changeSlot.bind(null, i.id().slice(4), 'mutation'));
         }
     }
+    
+    if (mode == 'app' && dragging) {
+        for (const [i, v] of hexes.entries()) {
+            if (dist(mouseX, mouseY, v.x, v.y) <= 25) {
+                if (!selected.includes(i)) {
+                    selected.push(i);
+                }
+            }
+        }
+    }
 }
 
 function mouseClicked() {
@@ -299,11 +352,23 @@ function mouseClicked() {
                     selected.push(i);
                 }
             }
-            if (!onSlot) {
+            if (!onSlot && !keyIsDown(SHIFT)) {
                 selected = [];
                 hexes = hexesNormal.splice();
             }
         }
+    }
+}
+
+function mousePressed() {
+    if (mode === 'app' && keyIsDown(SHIFT)) {
+        dragging = true;
+    }
+}
+
+function mouseReleased() {
+    if (mode === 'app') {
+        dragging = false;
     }
 }
 
@@ -550,3 +615,16 @@ function changeSlot(type, category) {
         hexes = hexesNormal.splice();
     }
 }
+
+function checkWindowSize() {
+    if (window.innerWidth < 850 || window.innerHeight < 660) {
+        sizeOverlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    } else {
+        sizeOverlay.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+
+window.addEventListener('load', checkWindowSize);
+window.addEventListener('resize', checkWindowSize);
