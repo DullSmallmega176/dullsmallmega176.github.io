@@ -298,7 +298,7 @@ function draw() {
         }
         return;
     }
-    /*
+    
     let currentState = JSON.stringify({
         slots: hive.slots,
         level: hive.level,
@@ -315,7 +315,7 @@ function draw() {
     if (cachedHiveImg) {
         image(cachedHiveImg, 0, 0);
     }
-    */
+    
     select('#headerTitle').html(`&nbsp&nbsphivemind - ${hive.name}`);
     drawHive(width / 2 - 140, height-17.5, 30, hive.slots, hive.level, hive.mutation, hive.beequip);
     hexes = hexes.splice(0, hive.slots.length < 25 ? 25 : hive.slots.length);
