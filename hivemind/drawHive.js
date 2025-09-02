@@ -82,7 +82,7 @@ function drawHive(x, y, radius, slots, level, mutation, beequip) {
         let bee = slots[i].toUpperCase();
         let rarity = slots[i] != 'U' ? bees[bee][0] : 'U';
         let fillColour = rarities[rarity];
-        // HONEYCOMB GRID
+
         if (i > 0 && i % 5 == 0) {
             yOffset -= radius / 1.2;
             xOffset = 0;
@@ -97,87 +97,59 @@ function drawHive(x, y, radius, slots, level, mutation, beequip) {
         strokeWeight(2);
 
         hexes.push({x: x + xOffset, y: y + yOffset, bee: bee, type: rarity});
-        // DRAWING EMPTY OR SELECTED ICON
-        if (slots[i] == 'U') {
-            if (hexes[i].type != 'SELECTED') {
-                fill(rarities.U);
-            } else {
-                fill(rarities.SELECTED);
-            }
-            stroke(get(0, 0));
-            hexagon(x + xOffset, y + yOffset, radius - 2);
-        } else if (hexes[i].type == 'SELECTED') {
-            fill(rarities.SELECTED);
+        if (slots[i] === 'U') {
+            fill(selected.has(i) ? rarities.SELECTED : rarities.U);
+            stroke(get(0,0));
+            hexagon(x + xOffset, y + yOffset, radius-2);
         } else {
-            fill(fillColour);
-        }
-        // DRAWING BEE'S HEXAGON
-        if (slots[i] != 'U') {
+            fill(selected.has(i) ? rarities.SELECTED : fillColour);
             hexagon(hexes[hexes.length - 1].x, hexes[hexes.length - 1].y, radius);
-        }
-        // CHANGING THE COLOR OF THE BEE ICON, ALSO ADDING LEVEL
-        if (slots[i] != 'U') {
 
-            // ADD A TINT ON BEE ICON, BUT
             let imgName = `bee_${slots[i].toUpperCase()}`;
             let img = bee_imgs[imgName];
-            if (slots[i].toUpperCase() != 'LO' && slots[i].toUpperCase() != 'CA') {
+            if (slots[i].toUpperCase() !== 'LO' && slots[i].toUpperCase() !== 'CA') {
                 tint(colours[bees[slots[i].toUpperCase()][1]]);
             } else {
                 noTint();
             }
-            // DRAW BEE ICON
             imageMode(CENTER);
-            image(img, x + xOffset, y + yOffset, radius + 8, radius + 8);
+            Image(img, x + xOffset, y + yOffset, radius + 8, radius + 8);
 
-            // DRAWING BEE'S GIFTED BORDER
-            if (slots[i] == slots[i].toLowerCase()) {
+            if (slots[i] === slots[i].toLowerCase()) {
                 stroke('#ff0');
                 strokeWeight(4);
                 noFill();
                 hexagon(x + xOffset, y + yOffset, radius - 2);
             }
 
-            // LEVEL
-            try {
-                let lvl = level[i].toString();
-                if (lvl) {
-                    let posX = hexes[hexes.length - 1].x - 18;
-                    let posY = hexes[hexes.length - 1].y;
-                    let beeMutation = mutations?.[mutation?.[i]?.toUpperCase()] || mutations.NONE;
-
-                    textFont(hwfnt);
-                    textAlign(CENTER, CENTER);
-                    textSize(20);
-                    fill(beeMutation);
-                    stroke(0);
-                    strokeWeight(2);
-                    text(lvl, posX, posY);
-                    textFont(fnt);
-                }
-            } catch(error) {
+            let lvl = level[i].toString();
+            if (lvl) {
+                let posX = hexes[hexes.length - 1].x - 18;
+                let posY = hexes[hexes.length - 1].y;
+                let beeMutation = mutations?.[mutation?.[i]?.toUpperCase()] || mutations.NONE;
+                textFont(hwfnt);
+                textAlign(CENTER, CENTER);
+                textSize(20);
+                fill(beeMutation);
+                stroke(0);
+                strokeWeight(2);
+                text(lvl, posX, posY);
+                textFont(fnt);
             }
 
-            // BEEQUIP
-            try {
-                let bqp = beequip[i].toString();
-                if (bqp) {
-                    let imgName = `bqp_${beequip[i].toUpperCase()}`;
-                    let bqpImg = bqp_imgs[imgName];
-
-                    if (bqpImg) {
-                        let posX = hexes[hexes.length - 1].x;
-                        let posY = hexes[hexes.length - 1].y;
-
-                        imageMode(CENTER);
-                        noTint();
-                        image(bqpImg, posX, posY+20, radius - 50, radius - 50);
-                    }
+            let bqp = beequip[i].toString();
+            if (bqp) {
+                let imgName = `bqp_${beequip[i].toUpperCase()}`;
+                let bqpImg = bqp_imgs[imgName];
+                if (bqpImg) {
+                    let posX = hexes[hexes.length - 1].x;
+                    let posY = hexes[hexes.length - 1].y;
+                    imageMode(CENTER);
+                    noTint();
+                    image(bqpImg, posX, posY+20, radius - 50, radius - 50);
                 }
-            } catch (error) {
             }
         }
-        
 
         let isNormal = true;
         for (const k of hexes) {
@@ -190,7 +162,7 @@ function drawHive(x, y, radius, slots, level, mutation, beequip) {
         }
 
     }
-    // I'M GUESSING FAILSAFE ?
+
     if (slots.length < 25) {
         if (slots.length % 5 == 0) {
             yOffset -= radius / 1.2;
