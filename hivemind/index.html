@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta name="viewport" content="width=device-width, height=device-height,  initial-scale=1.0, user-scalable=no;user-scalable=0;"/>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, height=device-height,  initial-scale=1.0, user-scalable=no;user-scalable=0;"/>
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="hivemind">
     <meta property="og:title" content="hivemind">
@@ -58,6 +57,7 @@
                     <button id="btn-U">Empty slot</button>
                     <button id="btn-LVL">Set Level</button>
                     <button id="btn-FLIP">Flip Gifted Value</button>
+                    <button id="removeBeequip">Remove Beequip</button>
                 </div>
             </div>
             <div id="commonBees">
@@ -235,7 +235,7 @@
             </div>
             <div id="beequips">
                 <div class="beeHead">
-                    <p class="beeTitle">Beequips</p>
+                    <p class="beeTitle">Beequips - Normal</p>
                     <button id="beequipMax" class="minMax" data-status="inactive">
                         <span class="material-symbols-outlined">
                         add
@@ -248,47 +248,64 @@
                     </button>
                 </div>
                 <div id="bees-beequip" class="bee-section" data-status="active">
-                    <button id="btn-TH">Thimble</button>
-                    <button id="btn-SW">Sweatband</button>
-                    <button id="btn-BAN">Bandage</button>
-                    <button id="btn-THU">Thumbtack</button>
-                    <button id="btn-CAMO">Camo Bandana</button>
-                    <button id="btn-BOT">Bottle Cap</button>
-                    <button id="btn-KA">Kazoo</button>
-                    <button id="btn-SM">Smiley Sticker</button>
-                    <button id="btn-WH">Whistle</button>
-                    <button id="btn-CH">Charm Bracelet</button>
-                    <button id="btn-PA">Paperclip</button>
-                    <button id="btn-BER">Beret</button>
+                    <button id="btn-AU">Autumn Sunhat</button>
                     <button id="btn-BANG">Bang Snap</button>
                     <button id="btn-BEAD">Bead Lizard</button>
-                    <button id="btn-PI">Pink Shades</button>
-                    <button id="btn-LE">Lei</button>
-                    <button id="btn-DEMO">Demon Talisman</button>
+                    <button id="btn-BER">Beret</button>
+                    <button id="btn-BAN">Bandage</button>
+                    <button id="btn-BOT">Bottle Cap</button>
+                    <button id="btn-CAMO">Camo Bandana</button>
                     <button id="btn-CAMP">Camphor Lip Balm</button>
-                    <button id="btn-AU">Autumn Sunhat</button>
-                    <button id="btn-RO">Rose Headband</button>
-                    <button id="btn-PIN">Pink Eraser</button>
                     <button id="btn-CAN">Candy Ring</button>
-                    <button id="btn-EL">Elf Cap</button>
-                    <button id="btn-SI">Single Mitten</button>
-                    <button id="btn-WA">Warm Scarf</button>
-                    <button id="btn-PE">Peppermint Antennas</button>
+                    <button id="btn-CH">Charm Bracelet</button>
+                    <button id="btn-DEMO">Demon Talisman</button>
+                    <button id="btn-KA">Kazoo</button>
+                    <button id="btn-LE">Lei</button>
+                    <button id="btn-PA">Paperclip</button>
+                    <button id="btn-PIN">Pink Eraser</button>
+                    <button id="btn-PI">Pink Shades</button>
+                    <button id="btn-RO">Rose Headband</button>
+                    <button id="btn-SM">Smiley Sticker</button>
+                    <button id="btn-SW">Sweatband</button>
+                    <button id="btn-TH">Thimble</button>
+                    <button id="btn-THU">Thumbtack</button>
+                    <button id="btn-WH">Whistle</button>
+                </div>
+            </div>
+            <div id="beesmas">
+                <div class="beeHead">
+                    <p class="beeTitle">Beequips - Beesmas</p>
+                    <button id="beesmasMax" class="minMax" data-status="inactive">
+                        <span class="material-symbols-outlined">
+                        add
+                        </span>
+                    </button>
+                    <button id="beesmasMin" class="minMax" data-status="active">
+                        <span class="material-symbols-outlined">
+                        remove
+                        </span>
+                    </button>
+                </div>
+                <div id="bees-beesmas" class="bee-section" data-status="active">
                     <button id="btn-BEE">Beesmas Top</button>
-                    <button id="btn-PINE">Pinecone</button>
-                    <button id="btn-ICI">Icicles</button>
                     <button id="btn-BEES">Beesmas Tree Hat</button>
                     <button id="btn-BUBB">Bubble Light</button>
-                    <button id="btn-SN">Snow Tiara</button>
-                    <button id="btn-SNO">Snowglobe</button>
-                    <button id="btn-RE">Reindeer Antlers</button>
-                    <button id="btn-TO">Toy Horn</button>
-                    <button id="btn-PAP">Paper Angel</button>
-                    <button id="btn-TOY">Toy Drum</button>
-                    <button id="btn-LU">Lump Of Coal</button>
-                    <button id="btn-PO">Poinsettia</button>
+                    <button id="btn-EL">Elf Cap</button>
                     <button id="btn-ELE">Electric Candle</button>
                     <button id="btn-FES">Festive Wreath</button>
+                    <button id="btn-ICI">Icicles</button>
+                    <button id="btn-LU">Lump Of Coal</button>
+                    <button id="btn-PAP">Paper Angel</button>
+                    <button id="btn-PINE">Pinecone</button>
+                    <button id="btn-PO">Poinsettia</button>
+                    <button id="btn-RE">Reindeer Antlers</button>
+                    <button id="btn-SI">Single Mitten</button>
+                    <button id="btn-SN">Snow Tiara</button>
+                    <button id="btn-SNO">Snowglobe</button>
+                    <button id="btn-TO">Toy Horn</button>
+                    <button id="btn-TOY">Toy Drum</button>
+                    <button id="btn-WA">Warm Scarf</button>
+                    <button id="btn-PE">Peppermint Antennas</button>
                 </div>
             </div>
             <br>

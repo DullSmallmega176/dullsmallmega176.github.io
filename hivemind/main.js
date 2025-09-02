@@ -176,7 +176,7 @@ function setup() {
         if (['bees-common', 'bees-rare', 'bees-epic', 'bees-legend', 'bees-mythic', 'bees-event'].includes(parentId)) {
             bee_btns.push(wrappedBtn);
         } 
-        else if (parentId === 'bees-beequip') {
+        else if (['bees-beequip', 'bees-beesmas'].includes(parentId)) {
             bqp_btns.push(wrappedBtn);
         } 
         else if (parentId === 'bees-mutation') {
@@ -255,9 +255,13 @@ function setup() {
     select('#beequipMax').mouseClicked(expandPanel.bind(null, 'beequip'));
     select('#beequipMin').mouseClicked(expandPanel.bind(null, 'beequip', 'true'));
 
+    select('#beesmasMax').mouseClicked(expandPanel.bind(null, 'beesmas'));
+    select('#beesmasMin').mouseClicked(expandPanel.bind(null, 'beesmas', 'true'));
+
     select('#btn-U').mouseClicked(changeSlot.bind(null, 'U', 'bee'));
     select('#btn-LVL').mouseClicked(changeSlot.bind(null, 0, 'level'));
     select('#btn-FLIP').mouseClicked(changeSlot.bind(null, 0, 'flip'));
+    select('#removeBeequip').mouseClicked(changeSlot.bind(null, 0, 'removequip'));
 
     gifted = createCheckbox('gifted (alt)')
         .id('giftedSelect')
@@ -610,6 +614,8 @@ function changeSlot(type, category) {
         } else if (category === 'flip') {
             let cur = hive.slots[i];
             hive.slots[i] = (cur === cur.toUpperCase()) ? cur.toLowerCase() : cur.toUpperCase();
+        } else if (category === 'removequip') {
+            hive.beequip[i] = null;
         }
     }
     selected = [];
