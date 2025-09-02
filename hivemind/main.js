@@ -1,4 +1,4 @@
-let lightModeBtn, darkModeBtn, mode, cnv, fnt, theme, hive, hiveSaved, hexes, hexesNormal, selected, multSelt, gifted, bee_btns, bqp_btns, mut_btns, dragging=false, lastHiveState = null, cacheHiveImg = null;
+let lightModeBtn, darkModeBtn, mode, cnv, fnt, theme, hive, hiveSaved, hexes, hexesNormal, selected, multSelt, gifted, bee_btns, bqp_btns, mut_btns, dragging=false;
 const bee_imgs = {};
 const bqp_imgs = {};
 const queryString = window.location.search;
@@ -162,7 +162,7 @@ function setup() {
     };
     hexes = [];
     hexesNormal = [];
-    selected = new Set();
+    selected = [];
     allButtons = selectAll('.beePanel div.bee-section button');
 
     bee_btns = [];
@@ -262,122 +262,100 @@ function setup() {
     gifted = createCheckbox('gifted (alt)')
         .id('giftedSelect')
         .parent(select('#multSeltCon'));
-
-    lightModeBtn.mouseClicked(setTheme.bind(null, 'light'));
-    darkModeBtn.mouseClicked(setTheme.bind(null, 'dark'));
-
-    for (const i of bee_btns) {
-        i.mouseClicked(changeSlot.bind(null, i.id().slice(4), 'bee'));
-    }
-
-    for (const i of bqp_btns) {
-        i.mouseClicked(changeSlot.bind(null, i.id().slice(4), 'beequip'));
-    }
-
-    for (const i of mut_btns) {
-        i.mouseClicked(changeSlot.bind(null, i.id().slice(4), 'mutation'));
-    }
 }
 
 function draw() {
     background(select('body').style('color'));
-    
-    if (mode !== 'app') {
+    lightModeBtn.mouseClicked(setTheme.bind(null, 'light'));
+    darkModeBtn.mouseClicked(setTheme.bind(null, 'dark'));
+
+    // menu
+    if (mode == 'menu') {
         textAlign(CENTER);
         textSize(50);
         fill(select('body').style('background-color'));
+        let textY = height / 2 + map(sin(frameCount * 0.025), -1, 1, -20, 20);
         noStroke();
-        text('welcome to hivemind!', width/2, height/2);
+        text('welcome to hivemind!', width/2, textY);
         textSize(25);
-        text("With dully improvements 69", width/2, height/2+35);
+        text("With dully improvements 69", width/2, textY+35);
         select('#headerTitle').html('&nbsp&nbsphivemind');
         if (getItem('hive')) {
             select('#appButton-2').attribute('data-status', 'active');
         } else {
             select('#appButton-2').attribute('data-status', 'inactive');
         }
-        return;
     }
     
-    let currentState = JSON.stringify({
-        slots: hive.slots,
-        level: hive.level,
-        mutation: hive.mutation,
-        beequip: hive.beequip
-    });
+    // app
+    if (mode == 'app') {
+        select('#headerTitle').html(`&nbsp&nbsphivemind - ${hive.name}`);
+        drawHive(width / 2 - 140, height-17.5, 30, hive.slots, hive.level, hive.mutation, hive.beequip);
+        hexes = hexes.splice(0, hive.slots.length < 25 ? 25 : hive.slots.length);
+        if (hive.slots.length >= 50 || selected.length != 0) {
+            select('#addSlot').attribute('disabled', '');
+        } else {
+            select('#addSlot').removeAttribute('disabled')
+        }
 
-    if (currentState !== lastHiveState) {
-        cachedHiveImg = createGraphics(width, height)
-        drawHive(cachedHiveImg, width / 2 - 140, height - 17.5, 30, hive.slots, hive.level, hive.mutation, hive.beequip);
-        lastHiveState = currentState;
-    }
+        if (hive.slots.length <= 25 || selected.length != 0) {
+            select('#removeSlot').attribute('disabled', '');
+        } else {
+            select('#removeSlot').removeAttribute('disabled');
+        }
 
-    if (cachedHiveImg) {
-        image(cachedHiveImg, 0, 0);
+        if (selected.length != 0) {
+            select('#changeName').attribute('disabled', '');
+        } else {
+            select('#changeName').removeAttribute('disabled');
+        }
+
+        for (const i of selected) {
+            hexes[i].type = 'SELECTED';
+        }
+
+        for (const i of bee_btns) {
+            i.mouseClicked(changeSlot.bind(null, i.id().slice(4), 'bee'));
+        }
+
+        for (const i of bqp_btns) {
+            i.mouseClicked(changeSlot.bind(null, i.id().slice(4), 'beequip'));
+        }
+
+        for (const i of mut_btns) {
+            i.mouseClicked(changeSlot.bind(null, i.id().slice(4), 'mutation'));
+        }
     }
     
-    select('#headerTitle').html(`&nbsp&nbsphivemind - ${hive.name}`);
-    drawHive(width / 2 - 140, height-17.5, 30, hive.slots, hive.level, hive.mutation, hive.beequip);
-    hexes = hexes.splice(0, hive.slots.length < 25 ? 25 : hive.slots.length);
-    if (hive.slots.length >= 50 || selected.length != 0) {
-        select('#addSlot').attribute('disabled', '');
-    } else {
-        select('#addSlot').removeAttribute('disabled')
-    }
-
-    if (hive.slots.length <= 25 || selected.length != 0) {
-        select('#removeSlot').attribute('disabled', '');
-    } else {
-        select('#removeSlot').removeAttribute('disabled');
-    }
-
-    if (selected.length != 0) {
-        select('#changeName').attribute('disabled', '');
-    } else {
-        select('#changeName').removeAttribute('disabled');
-    }
-
-    for (const i of selected) {
-        hexes[i].type = 'SELECTED';
-    }
-    
-    if (dragging) {
+    if (mode == 'app' && dragging) {
         for (const [i, v] of hexes.entries()) {
             if (dist(mouseX, mouseY, v.x, v.y) <= 25) {
-                selected.add(i);
+                if (!selected.includes(i)) {
+                    selected.push(i);
+                }
             }
         }
     }
-    console.log(selected)
 }
 
 function mouseClicked() {
-    if (mode !== 'app') return;
-
-    if (mouseX.between(0, 472, true) && mouseY.between(0, 563)) {
-        let clickedOnHex = false;
-        for (const [i, v] of hexes.entries()) {
-            if (dist(mouseX, mouseY, v.x, v.y) <= 25) {
-                clickedOnHex = true;
-                if (!keyIsDown(SHIFT) && !multSelt.checked()) {
-                    selected.clear();
+    if (mode == 'app') {
+        if (mouseX.between(0, 472, true) && mouseY.between(0, 563)) {
+            let onSlot = false;
+            for (const [i, v] of hexes.entries()) {
+                if (dist(mouseX, mouseY, v.x, v.y) <= 25) {
+                    if (!keyIsDown(SHIFT) && !multSelt.checked()) {
+                        hexes = hexesNormal.splice();
+                        selected = [];
+                    }
+                    onSlot = true;
+                    selected.push(i);
                 }
-                selected.add(i);
-                break;
             }
-        }
-        if (!clickedOnHex && !keyIsDown(SHIFT)) {
-            selected.clear();
-        }
-    }
-}
-
-function dragSelect() {
-    if (!dragging || mode !== 'app') return;
-
-    for (const [i, v] of hexes.entries()) {
-        if (dist(mouseX, mouseY, v.x, v.y) <= 25) {
-            selected.add(i);
+            if (!onSlot && !keyIsDown(SHIFT)) {
+                selected = [];
+                hexes = hexesNormal.splice();
+            }
         }
     }
 }
@@ -634,7 +612,7 @@ function changeSlot(type, category) {
             hive.slots[i] = (cur === cur.toUpperCase()) ? cur.toLowerCase() : cur.toUpperCase();
         }
     }
-    selected = new Set();
+    selected = [];
     hexes = hexesNormal.splice();
 }
 
