@@ -119,14 +119,45 @@ async function decodeAndPreview(base64Str) {
             mediaViewer.appendChild(msg);
         }
 
+        const actionWrapper = document.createElement('div');
+        actionWrapper.style.display = "flex";
+        actionWrapper.style.justifyContent = "center";
+        actionWrapper.style.gap = "15px";
+        actionWrapper.style.marginTop = "20px";
+
         const dLink = document.createElement('a');
         dLink.href = url;
         dLink.download = `decode.${typeInfo.ext}`;
         dLink.innerText = "Download File";
-        dLink.style.display = "block";
-        dLink.style.width = "fit-content";
-        dLink.style.margin = "20px auto 0 auto";
-        mediaViewer.appendChild(dLink);
+        dLink.className = "media-btn";
+        actionWrapper.appendChild(dLink);
+
+        if (typeInfo.mime === 'image/png') {
+            const copyImgBtn = document.createElement('button');
+            copyImgBtn.innerText = "Copy Image";
+            copyImgBtn.className = "media-btn";
+
+            copyImgBtn.onclick = async () => {
+                const success = await copyImageToClipboard(clearStr, typeInfo.mime);
+                const originalText = copyImgBtn.innerText;
+                
+                if (success) {
+                    copyImgBtn.innerText = "Copied!";
+                    copyImgBtn.style.backgroundColor = "#096e3c"; 
+                } else {
+                    copyImgBtn.innerText = "Failed!";
+                    copyImgBtn.style.backgroundColor = "#d32f2f"; 
+                }
+                
+                setTimeout(() => {
+                    copyImgBtn.innerText = originalText;
+                    copyImgBtn.style.backgroundColor = "";
+                }, 1500);
+            };
+            actionWrapper.appendChild(copyImgBtn);
+        }
+
+        mediaViewer.appendChild(actionWrapper);
     } catch (e) {
         previewContainer.classList.add('hidden');
     }
@@ -213,5 +244,17 @@ copyBtn.addEventListener('click', async () => {
     }
 });
 
-clearBtn.addEventListener('click', resetUI);
+async function copyImageToClipboard(base64String, mimeType = 'image/png') {
+    try {
+        const response = await fetch(`data:${mimeType};base64,${base64String}`);
+        const blob = await response.blob();
+        const item = new ClipboardItem({ [blob.type]: blob });
+        await navigator.clipboard.write([item]);
+        return true;
+    } catch (error) {
+        console.error("Failed to copy image:", error);
+        return false;
+    }
+}
 
+clearBtn.addEventListener('click', resetUI);
